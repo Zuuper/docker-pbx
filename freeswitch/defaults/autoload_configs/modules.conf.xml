@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration name="modules.conf" description="Modules">
+  <modules>
+    <load module="mod_console"/>
+    <load module="mod_logfile"/>
+    <load module="mod_sofia"/>
+    <load module="mod_dptools"/>
+    <load module="mod_commands"/>
+    <load module="mod_tone_stream"/>
+    <load module="mod_loopback"/>
+    <load module="mod_conference"/>
+    <load module="mod_xml_cdr"/>
+    <load module="mod_hash"/>
+    <load module="mod_db"/>
+    <load module="mod_dialplan_xml"/>
+    <load module="mod_event_socket"/>
+    <load module="mod_expr"/>
+    <load module="mod_sndfile"/>
+    <load module="mod_native_file"/>
+    <load module="mod_g722"/>
+    <load module="mod_opus"/>
+    <load module="mod_l16"/>
+  </modules>
+</configuration>

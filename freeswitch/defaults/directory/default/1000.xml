@@ -1,0 +1,10 @@
+<include>
+  <user id="1000">
+    <params>
+      <param name="password" value="$${default_password}"/>
+    </params>
+    <variables>
+      <variable name="user_context" value="default"/>
+    </variables>
+  </user>
+</include>

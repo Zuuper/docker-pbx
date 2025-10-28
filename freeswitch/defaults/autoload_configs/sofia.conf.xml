@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration name="sofia.conf" description="SIP Stack">
+  <global_settings>
+    <param name="debug" value="0"/>
+    <param name="log-level" value="3"/>
+  </global_settings>
+  <profiles>
+    <X-PRE-PROCESS cmd="include" data="../sip_profiles/*.xml"/>
+  </profiles>
+</configuration>

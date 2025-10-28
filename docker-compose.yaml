@@ -1,0 +1,143 @@
+services:
+  pbx_postgres:
+    image: postgres:17
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-fusion_pbx_db}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-12345678}
+      POSTGRES_USER: ${POSTGRES_USER:-fusionpbx}
+    ports:
+      - 5432:5432
+    volumes:
+      - fusionpbxdata:/var/lib/postgresql/data
+    networks:
+      - fusionpbx_internal
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-fusionpbx} -d ${POSTGRES_DB:-fusion_pbx_db}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  pbx_pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    env_file:
+      - .env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@example.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-12345678}
+    ports:
+      - 5050:80
+    networks:
+      - fusionpbx_networks
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles:
+      - tools
+
+  pbx_nginx:
+    image: nginx:stable
+    container_name: nginx
+    restart: always
+    ports:
+      - 8080:80
+      - 443:443
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - fusionpbx_:/var/www/fusionpbx:ro
+    networks:
+      - fusionpbx_edge
+      - fusionpbx_internal
+
+  # Setup IPTables
+  pbx_firewall:
+    build:
+      context: ./iptables
+    network_mode: "service:pbx_nginx"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    depends_on: [pbx_nginx]
+
+  pbx_sngrep:
+    build:
+      context: ./sngrep
+    network_mode: "service:pbx_nginx"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    tty: true
+    stdin_open: true
+    profiles:
+      - tools
+    command: ["sngrep", "-O", "/tmp/captures"]
+
+  pbx_fusionpbx:
+    build: ./fusionpbx
+    restart: "always"
+    volumes:
+      # This is where FusionPBX code will live, persisted, and shared to nginx
+      - fusionpbx_:/var/www
+      # Feed only config.sh, like you insisted
+      - ./fusionpbx/config.sh:/docker/config.sh:ro
+    networks:
+      - fusionpbx_internal
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /var/www/fusionpbx/index.php"]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  pbx_freeswitch:
+    build: ./freeswitch
+    restart: no
+    environment:
+      TZ: ${TZ:-UTC}
+      FS_BIN: /usr/bin/freeswitch
+      FS_ETC: /etc/freeswitch
+      FS_VAR: /var/lib/freeswitch
+      FS_LOG: /var/log/freeswitch
+      FS_USER: www-data
+      FS_GROUP: www-data
+      FS_FOREGROUND: "1"
+      FS_DEBUG: "1"
+      FS_CONF_SOURCE: /opt/freeswitch/defaults
+      # Optional: mount a folder with your conf to seed on first run
+      # FS_DEFAULTS_DIR: /opt/freeswitch/defaults
+    ulimits:
+      nofile: { soft: 200000, hard: 200000 }
+      memlock: { soft: -1, hard: -1 }
+      rtprio: 99
+    cap_add: [SYS_NICE, IPC_LOCK, SYS_RESOURCE]
+    security_opt:
+      - no-new-privileges:false
+    ports:
+      - "5060:5060/udp"
+      - "5060:5060/tcp"
+      - "5080:5080/udp"
+      - "5080:5080/tcp"
+      - "8021:8021/tcp"
+      - "30000-30100:30000-30100/udp" # <<< small RTP window
+    volumes:
+      - ./freeswitch/defaults:/etc/freeswitch # named volume, empty on first run
+      - fs_var:/var/lib/freeswitch
+      - fs_logs:/var/log/freeswitch
+
+volumes:
+  fusionpbx_:
+  fusionpbxdata:
+  fs_var:
+  fs_logs:
+
+networks:
+  fusionpbx_edge:
+    driver: bridge # public-facing for nginx only
+  fusionpbx_internal:
+    driver: bridge # private app mesh

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration name="switch.conf" description="Core">
+  <settings>
+    <param name="base-dir" value="/"/>
+    <param name="recordings-dir" value="/var/lib/freeswitch/recordings"/>
+    <param name="sounds-dir" value="/usr/share/freeswitch/sounds"/>
+    <param name="log-dir" value="/var/log/freeswitch"/>
+    <param name="run-as-user" value="www-data"/>
+    <param name="run-as-group" value="www-data"/>
+    <param name="rtp-start-port" value="$${rtp-start-port}"/>
+    <param name="rtp-end-port" value="$${rtp-end-port}"/>
+  </settings>
+</configuration>

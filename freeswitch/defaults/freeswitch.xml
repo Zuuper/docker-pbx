@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="freeswitch/xml">
+  <section name="configuration">
+    <!-- Load all autoloadable configs -->
+    <X-PRE-PROCESS cmd="include" data="autoload_configs/*.xml"/>
+
+    <!-- Optionally load vars first if you want ${var} in autoload files -->
+    <X-PRE-PROCESS cmd="include" data="vars.xml"/>
+
+    <!-- Switch core config -->
+    <X-PRE-PROCESS cmd="include" data="switch.conf.xml"/>
+
+    <!-- Sofia SIP, event socket, ACLs, etc are under autoload_configs -->
+  </section>
+
+  <section name="directory">
+    <X-PRE-PROCESS cmd="include" data="directory/*.xml"/>
+    <X-PRE-PROCESS cmd="include" data="directory/default/*.xml"/>
+  </section>
+
+  <section name="dialplan" description="Dialplan">
+    <X-PRE-PROCESS cmd="include" data="dialplan/*.xml"/>
+    <X-PRE-PROCESS cmd="include" data="dialplan/*/*.xml"/>
+  </section>
+
+  <section name="languages">
+    <X-PRE-PROCESS cmd="include" data="languages/*.xml"/>
+  </section>
+</document>
