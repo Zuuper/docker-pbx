@@ -1,255 +1,288 @@
 #!/usr/bin/env bash
-# Host-run FusionPBX bootstrap for your Docker stack.
-# Executes inside the containers via docker exec. Quiet, idempotent, Windows-safe.
-set -Eeuo pipefail
+set -euo pipefail
+[ "${DEBUG:-0}" = "1" ] && set -x
 
-# ------------- Config you can tweak -------------
-# Container names (must match your compose)
-PG_CTN="${PG_CTN:-pbx_postgres}"
-FPBX_CTN="${FPBX_CTN:-pbx_fusion}"
-FS_CTN="${FS_CTN:-pbx_freeswitch}"
-
-# Local config (on host)
-CONFIG_SH="${CONFIG_SH:-./config.sh}"
-FPBX_CONF_SRC="${FPBX_CONF_SRC:-./fusionpbx/config.conf}"  # optional template
-
-# psql auth/maintenance DB
-PSQL_USER="${POSTGRES_USER:-fusionpbx}"
-PSQL_DB_MAINT="${POSTGRES_DB:-fusion_pbx_db}"
-
-# Defaults if your config forgot them (overridden by CONFIG_SH if set)
-: "${database_host:=pbx_postgres}"
-: "${database_port:=5432}"
-: "${database_name:=fusion_pbx_db}"
-: "${database_username:=fusionpbx}"
-: "${database_password:=12345678}"
-: "${system_username:=admin}"
-: "${system_password:=random}"
-: "${domain_name:=hostname}"
-
-# ------------- Sanity checks -------------
-command -v docker >/dev/null || { echo "docker not found"; exit 1; }
-[[ -f "$CONFIG_SH" ]] || { echo "Missing $CONFIG_SH. Put your variables there."; exit 1; }
-# shellcheck disable=SC1090
-. "$CONFIG_SH"
-
-# ------------- Bring up containers (idempotent) -------------
-echo "[host] ensuring containers are running..."
-docker compose up -d "$PG_CTN" "$FPBX_CTN" "$FS_CTN" >/dev/null 2>&1 || true
-
-# ------------- docker exec helpers (MSYS path-mangle off) -------------
-dex_fpbx(){ MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL="*" docker exec -i "$FPBX_CTN" "$@"; }
-dex_pg(){   MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL="*" docker exec -i "$PG_CTN" "$@"; }
-dex_fs(){   MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL="*" docker exec -i "$FS_CTN" "$@"; }
-
-# ------------- Wait for Postgres (maintenance DB) -------------
-echo "[host] waiting for Postgres..."
-for _ in $(seq 1 60); do
-  if docker exec "$PG_CTN" pg_isready -U "$PSQL_USER" -d "$PSQL_DB_MAINT" >/dev/null 2>&1; then
-    break
+# --------- Docker wrappers (Windows-safe) ----------
+docker_cmd() {
+  if [ "${OS:-}" = "Windows_NT" ]; then
+    MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL="*" docker "$@"
+  else
+    docker "$@"
   fi
-  sleep 1
-done
-
-# ------------- Generate passwords if requested -------------
-if [[ ".${database_password}" = ".random" ]]; then
-  database_password="$(dd if=/dev/urandom bs=1 count=24 2>/dev/null | base64 | sed 's/[=+\/]//g')"
-  echo "[host] generated database_password"
-fi
-if [[ ".${system_password}" = ".random" ]]; then
-  ui_password="$(dd if=/dev/urandom bs=1 count=24 2>/dev/null | base64 | sed 's/[=+\/]//g')"
-  echo "[host] generated UI password"
-else
-  ui_password="$system_password"
-fi
-
-# ------------- Ensure application database exists -------------
-echo "[db] ensuring application database exists: ${database_name}"
-DB_EXISTS="$(dex_pg psql -tA -U "$PSQL_USER" -d "$PSQL_DB_MAINT" -h "$database_host" \
-  -c "SELECT 1 FROM pg_database WHERE datname='${database_name}'")"
-if [[ "$DB_EXISTS" != "1" ]]; then
-  echo "[db] creating database ${database_name} owned by ${PSQL_USER}"
-  dex_pg psql -v ON_ERROR_STOP=1 -U "$PSQL_USER" -d "$PSQL_DB_MAINT" -h "$database_host" \
-    -c "CREATE DATABASE ${database_name} OWNER ${PSQL_USER};"
-fi
-dex_pg psql -tA -U "$PSQL_USER" -d "$PSQL_DB_MAINT" -h "$database_host" \
-  -c "SELECT 1 FROM pg_database WHERE datname='${database_name}'" | grep -q '^1$' \
-  || { echo "[db][error] ${database_name} was not created"; exit 1; }
-
-# ------------- Update DB role passwords (if roles exist) -------------
-echo "[db] altering roles fusionpbx / freeswitch"
-dex_pg psql -v ON_ERROR_STOP=1 -U "$PSQL_USER" -d "$PSQL_DB_MAINT" -h "$database_host" <<SQL
-DO \$\$
-BEGIN
-  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname='fusionpbx') THEN
-    EXECUTE 'ALTER USER fusionpbx WITH PASSWORD ' || quote_literal('${database_password}');
-  END IF;
-  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname='freeswitch') THEN
-    EXECUTE 'ALTER USER freeswitch WITH PASSWORD ' || quote_literal('${database_password}');
-  END IF;
-END
-\$\$;
-SQL
-
-# ------------- Seed /etc/fusionpbx/config.conf inside FusionPBX -------------
-echo "[fpbx] ensuring /etc/fusionpbx/config.conf"
-dex_fpbx bash -c "mkdir -p /etc/fusionpbx"
-if [[ -f "$FPBX_CONF_SRC" ]]; then
-  docker cp "$FPBX_CONF_SRC" "$FPBX_CTN:/etc/fusionpbx/config.conf"
-else
-  dex_fpbx bash -lc "cat >/etc/fusionpbx/config.conf <<'EOF'
-[database]
-type=pgsql
-host={database_host}
-name={database_name}
-username={database_username}
-password={database_password}
-port={database_port}
-EOF"
-fi
-# replace placeholders inside the container
-dex_fpbx bash -lc "sed -i \
-  -e 's:{database_host}:$database_host:g' \
-  -e 's:{database_name}:$database_name:g' \
-  -e 's:{database_username}:$database_username:g' \
-  -e 's:{database_password}:$database_password:g' \
-  -e 's:{database_port}:$database_port:g' /etc/fusionpbx/config.conf"
-
-# ------------- Locate upgrade.php -------------
-UPGRADE_PATH="$(dex_fpbx bash -lc 'for p in \
-  /var/www/fusionpbx/core/upgrade/upgrade.php \
-  /var/www/core/upgrade/upgrade.php; do
-  [ -f "$p" ] && echo "$p" && break
-done')"
-[ -n "$UPGRADE_PATH" ] || { echo "[fpbx][error] FusionPBX not found under /var/www"; exit 1; }
-
-# ------------- Quiet runner for upgrade steps -------------
-run_upgrade_quiet() {
-  local step="$1"
-  echo "[fpbx] running $step (quiet)"
-  dex_fpbx bash -lc "
-    set -e
-    LOGDIR=/var/log/fusionpbx
-    mkdir -p \"\$LOGDIR\"
-    LOGFILE=\"\$LOGDIR/upgrade_${step}.log\"
-    php -d display_errors=0 \"$UPGRADE_PATH\" --$step >\"\$LOGFILE\" 2>&1
-  " || {
-    echo "[fpbx][error] upgrade step '$step' failed. Last 100 lines:"
-    dex_fpbx bash -lc "tail -n 100 /var/log/fusionpbx/upgrade_${step}.log || true"
-    exit 1
-  }
 }
+docker_exec() { docker_cmd exec "$@"; }
 
-# ------------- Run schema first -------------
-run_upgrade_quiet schema
+# --------- locations ----------
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 
-# ------------- Silence SQL/log debug settings (after schema) -------------
-dex_pg psql -v ON_ERROR_STOP=1 -U "$PSQL_USER" -d "$database_name" -h "$database_host" -c "
-UPDATE v_default_settings
-   SET default_setting_enabled='false'
- WHERE (default_setting_category IN ('database','log','logging','message','internal')
-        OR default_setting_subcategory ILIKE '%sql%'
-        OR default_setting_name ILIKE '%sql%')
-   AND default_setting_enabled='true';
-"
-dex_pg psql -v ON_ERROR_STOP=1 -U "$PSQL_USER" -d "$database_name" -h "$database_host" -c "
-UPDATE v_domain_settings
-   SET domain_setting_enabled='false'
- WHERE (domain_setting_category IN ('database','log','logging','message','internal')
-        OR domain_setting_subcategory ILIKE '%sql%'
-        OR domain_setting_name ILIKE '%sql%')
-   AND domain_setting_enabled='true';
-"
+COMPOSE="docker compose"
+COMPOSE_FILE="docker-compose.yaml"
 
-# ------------- Determine domain name within container netns -------------
-resolved_domain_name="$(dex_fpbx bash -lc '
-  d="'"$domain_name"'"
-  if [ ".$d" = ".hostname" ]; then hostname -f || hostname; elif [ ".$d" = ".ip_address" ]; then hostname -I | awk "{print \$1}"; else echo "$d"; fi
-')"
-echo "[fpbx] domain_name => $resolved_domain_name"
+# --------- sanity ----------
+need() { command -v "$1" >/dev/null 2>&1 || { echo "Missing $1"; exit 1; }; }
+need docker
+$COMPOSE version >/dev/null 2>&1 || { echo "docker compose not available"; exit 1; }
+[ -f "$COMPOSE_FILE" ] || { echo "$COMPOSE_FILE not found in $SCRIPT_DIR"; exit 1; }
+[ -f ".env" ] || { echo ".env not found in $SCRIPT_DIR"; exit 1; }
 
-# ------------- Create domain + admin user, add to superadmin -------------
-domain_uuid="$(dex_fpbx php /var/www/fusionpbx/resources/uuid.php)"
-user_uuid="$(dex_fpbx php /var/www/fusionpbx/resources/uuid.php)"
-user_salt="$(dex_fpbx php /var/www/fusionpbx/resources/uuid.php)"
-password_hash="$(dex_fpbx php -r "echo md5('${user_salt}${ui_password}');" | tr -d '\r')"
+# --------- load env (strip CRLF on Windows) ----------
+set -a
+sed -e 's/\r$//' .env > .env.unix
+. ./.env.unix
+rm -f .env.unix
+set +a
 
-echo "[db] inserting domain if missing"
-dex_pg psql -v ON_ERROR_STOP=1 -U "$PSQL_USER" -d "$database_name" -h "$database_host" <<SQL
-INSERT INTO v_domains (domain_uuid, domain_name, domain_enabled)
-VALUES ('$domain_uuid', '$resolved_domain_name', 'true')
-ON CONFLICT (domain_name) DO NOTHING;
-SQL
+# --------- defaults from your .env ----------
+POSTGRES_DB="${POSTGRES_DB:-fusion_pbx_db}"
+POSTGRES_USER="${POSTGRES_USER:-fusionpbx}"
+POSTGRES_PASSWORD="${POSTGRES_PASSWORD:-12345678}"
+POSTGRES_HOST="${POSTGRES_HOST:-pbx_postgres}"
+POSTGRES_PORT="${POSTGRES_PORT:-5432}"
 
-echo "[db] creating admin user if missing"
-dex_pg psql -v ON_ERROR_STOP=1 -U "$PSQL_USER" -d "$database_name" -h "$database_host" <<SQL
-INSERT INTO v_users (user_uuid, domain_uuid, username, password, salt, user_enabled)
-SELECT '$user_uuid', '$domain_uuid', '${system_username}', '${password_hash}', '${user_salt}', 'true'
-WHERE NOT EXISTS (
-  SELECT 1 FROM v_users WHERE username='${system_username}'
-    AND (domain_uuid='${domain_uuid}' OR domain_uuid IS NULL)
-);
-SQL
+# Map to your original names/behavior
+DOMAIN_NAME="${DOMAIN_NAME:-hostname}"   # hostname | ip_address | fqdn
+SYSTEM_USERNAME="${ADMIN_USER:-admin}"
+SYSTEM_PASSWORD="${ADMIN_PASS:-random}"
 
-echo "[db] adding user to superadmin"
-group_uuid="$(dex_pg psql -tA -U "$PSQL_USER" -d "$database_name" -h "$database_host" \
-  -c "SELECT group_uuid FROM v_groups WHERE group_name='superadmin' LIMIT 1;")"
-[ -n "$group_uuid" ] || { echo "[error] superadmin group missing. Did schema load?"; exit 1; }
-user_group_uuid="$(dex_fpbx php /var/www/fusionpbx/resources/uuid.php)"
-dex_pg psql -v ON_ERROR_STOP=1 -U "$PSQL_USER" -d "$database_name" -h "$database_host" <<SQL
-INSERT INTO v_user_groups (user_group_uuid, domain_uuid, group_name, group_uuid, user_uuid)
-SELECT '$user_group_uuid', '$domain_uuid', 'superadmin', '$group_uuid', '$user_uuid'
-WHERE NOT EXISTS (
-  SELECT 1 FROM v_user_groups WHERE user_uuid='$user_uuid' AND group_uuid='$group_uuid'
-);
-SQL
+gen_secret() {
+  if command -v openssl >/dev/null 2>&1; then
+    openssl rand -base64 48 | tr -dc 'A-Za-z0-9' | head -c 24
+  else
+    tr -dc 'A-Za-z0-9' </dev/urandom | head -c 24
+  fi
+}
+[ "$SYSTEM_PASSWORD" = "random" ] && SYSTEM_PASSWORD="$(gen_secret)"
 
-# ------------- Apply defaults/permissions/services (quiet) -------------
-run_upgrade_quiet defaults
-run_upgrade_quiet permissions
-run_upgrade_quiet services
+# Compose service/container names
+SVC_DB="pbx_postgres"
+SVC_WEB="pbx_fusionpbx"
+NAME_WEB="pbx_fusion"
+SVC_FS="pbx_freeswitch"
+SVC_NGX="pbx_nginx"
 
-# ------------- Optional: xml_cdr wiring inside FreeSWITCH -------------
-echo "[fs] configuring xml_cdr credentials (best-effort)"
-xml_user="$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64 | sed 's/[=+\/]//g')"
-xml_pass="$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64 | sed 's/[=+\/]//g')"
-dex_fs bash -lc '
-  set -e
-  CONF=/etc/freeswitch/autoload_configs/xml_cdr.conf.xml
-  [ -f "$CONF" ] || exit 0
-  sed -i \
-    -e s:"{v_http_protocol}:http:" \
-    -e s:"{domain_name}:'"$database_host"':" \
-    -e s:"{v_project_path}::" \
-    -e s:"{v_user}:'"$xml_user"':" \
-    -e s:"{v_pass}:'"$xml_pass"':" \
-    "$CONF"
-  true
-' || echo "[fs] skipped xml_cdr edits (file missing)."
+echo "[setup] Starting Postgres…"
+$COMPOSE -f "$COMPOSE_FILE" up -d "$SVC_DB"
 
-echo "[fs] reloading FreeSWITCH"
-if dex_fs command -v fs_cli >/dev/null 2>&1; then
-  dex_fs fs_cli -x 'reloadxml' || true
-else
-  docker compose restart "$FS_CTN" >/dev/null 2>&1 || true
+echo "[setup] Waiting for Postgres health…"
+for _ in {1..60}; do
+  health="$(docker_cmd inspect --format='{{.State.Health.Status}}' "$SVC_DB" 2>/dev/null || echo "unknown")"
+  [ "$health" = "healthy" ] && break
+  sleep 2
+done
+[ "$health" = "healthy" ] || { echo "Postgres failed health"; docker_cmd logs --tail 100 "$SVC_DB" || true; exit 1; }
+echo "[setup] Postgres healthy."
+
+echo "[setup] Starting FusionPBX web…"
+$COMPOSE -f "$COMPOSE_FILE" up -d "$SVC_WEB"
+docker_cmd inspect "$NAME_WEB" >/dev/null 2>&1 || { echo "Container $NAME_WEB not found"; exit 1; }
+
+# Detect FusionPBX install path (kept simple)
+FUSIONPBX_DIR="/var/www/fusionpbx"
+if ! docker_exec "$NAME_WEB" bash -lc "test -f '$FUSIONPBX_DIR/index.php'"; then
+  for p in /var/www/html/fusionpbx /var/www/html /var/www; do
+    if docker_exec "$NAME_WEB" bash -lc "test -f '$p/index.php'"; then FUSIONPBX_DIR="$p"; break; fi
+  done
+fi
+docker_exec "$NAME_WEB" bash -lc "test -f '$FUSIONPBX_DIR/index.php'" || {
+  echo "[setup] Could not find FusionPBX index.php in container"; exit 1; }
+echo "[setup] FusionPBX detected at $FUSIONPBX_DIR"
+
+echo "[setup] Bootstrapping FusionPBX (schema, defaults, user)…"
+# IMPORTANT: -i so heredoc reaches bash -s in the container
+docker_cmd exec -i \
+  -e database_host="${POSTGRES_HOST}" \
+  -e database_port="${POSTGRES_PORT}" \
+  -e database_name="${POSTGRES_DB}" \
+  -e database_username="${POSTGRES_USER}" \
+  -e database_password="${POSTGRES_PASSWORD}" \
+  -e domain_name="${DOMAIN_NAME}" \
+  -e system_username="${SYSTEM_USERNAME}" \
+  -e system_password="${SYSTEM_PASSWORD}" \
+  -e FUSIONPBX_DIR="${FUSIONPBX_DIR}" \
+  "$NAME_WEB" bash -s <<'IN_CONTAINER'
+set -euo pipefail
+log(){ printf "\n[finish-like] %s\n" "$*"; }
+
+# Bring env in like the original finish.sh
+database_host="${database_host:-pbx_postgres}"
+database_port="${database_port:-5432}"
+database_name="${database_name:-fusion_pbx_db}"
+database_username="${database_username:-fusionpbx}"
+database_password="${database_password:-random}"
+domain_name="${domain_name:-hostname}"
+system_username="${system_username:-admin}"
+system_password="${system_password:-random}"
+FUSIONPBX_DIR="${FUSIONPBX_DIR:-/var/www/fusionpbx}"
+
+[ "$database_password" = "random" ] && database_password="$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 24)"
+export PGPASSWORD="$database_password"
+
+# --- PHP CLI detection / install if missing ---------------------------------
+PHP=""
+if command -v php >/dev/null 2>&1; then
+  PHP="$(command -v php)"
+elif [ -x /usr/local/bin/php ]; then
+  PHP="/usr/local/bin/php"
+elif [ -x /usr/bin/php ]; then
+  PHP="/usr/bin/php"
 fi
 
-# ------------- Runtime dir for FusionPBX -------------
-echo "[fpbx] making /var/run/fusionpbx"
-dex_fpbx bash -lc "mkdir -p /var/run/fusionpbx && chown -R www-data:www-data /var/run/fusionpbx || true"
+if [ -z "$PHP" ]; then
+  log "php CLI not found; attempting to install…"
+  if command -v apt-get >/dev/null 2>&1; then
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    (apt-get install -y php-cli || apt-get install -y php8.2-cli php8.2-common php8.2-opcache php8.2-readline || apt-get install -y php8.1-cli) || {
+      echo "Failed to install php-cli via apt-get"; exit 1; }
+  elif command -v apk >/dev/null 2>&1; then
+    apk add --no-cache php82-cli php82-session php82-opcache || apk add --no-cache php81-cli || {
+      echo "Failed to install php-cli via apk"; exit 1; }
+    command -v php >/dev/null 2>&1 || ln -sf "$(command -v php82 || true)" /usr/bin/php || true
+    command -v php >/dev/null 2>&1 || ln -sf "$(command -v php81 || true)" /usr/bin/php || true
+  elif command -v dnf >/dev/null 2>&1; then
+    dnf install -y php-cli || dnf install -y php82-cli || {
+      echo "Failed to install php-cli via dnf"; exit 1; }
+  else
+    echo "No package manager found to install php-cli. Please add php-cli to the image."
+    exit 1
+  fi
 
-# ------------- Summary -------------
-cat <<EOF
+  if command -v php >/dev/null 2>&1; then
+    PHP="$(command -v php)"
+  elif [ -x /usr/local/bin/php ]; then
+    PHP="/usr/local/bin/php"
+  elif [ -x /usr/bin/php ]; then
+    PHP="/usr/bin/php"
+  else
+    echo "php CLI still not found after install attempts"; exit 1
+  fi
+fi
 
-==== FusionPBX Installation Notes ====
- Login URL:        https://${resolved_domain_name}
- Username:         ${system_username}
- Password:         ${ui_password}
+PSQL=psql
 
- Database host:    ${database_host}:${database_port}
- Database name:    ${database_name}
- Database user:    ${database_username}
- Database pass:    ${database_password}
-======================================
-
+# 1) add the config files (conf + php) like your original
+log "Writing /etc/fusionpbx/config.conf & config.php"
+mkdir -p /etc/fusionpbx
+cat >/etc/fusionpbx/config.conf <<EOF
+#database system settings
+database.0.type = pgsql
+database.0.host = ${database_host}
+database.0.port = ${database_port}
+database.0.sslmode = prefer
+database.0.name = ${database_name}
+database.0.username = ${database_username}
+database.0.password = ${database_password}
 EOF
+
+cat >/etc/fusionpbx/config.php <<EOF
+<?php
+\$database_type = "pgsql";
+\$database_host = "${database_host}";
+\$database_port = "${database_port}";
+\$database_name = "${database_name}";
+\$database_username = "${database_username}";
+\$database_password = "${database_password}";
+\$db_type=\$database_type;\$db_host=\$database_host;\$db_port=\$database_port;\$db_name=\$database_name;\$db_username=\$database_username;\$db_password=\$database_password;
+EOF
+chmod 0640 /etc/fusionpbx/config.*
+
+# 2) add the database schema (LOUD)
+log "Applying database schema"
+set +e
+SCHEMA_OUT="$({ $PHP -d display_errors=1 "$FUSIONPBX_DIR/core/upgrade/upgrade.php" --schema; } 2>&1)"
+RC=$?
+set -e
+printf "%s\n" "$SCHEMA_OUT"
+[ $RC -eq 0 ] || { echo "Schema failed rc=$RC"; exit $RC; }
+
+# 3) get the server hostname/ip (same logic as original)
+if [ ".$domain_name" = ".hostname" ]; then domain_name="$(hostname -f 2>/dev/null || hostname)"; fi
+if [ ".$domain_name" = ".ip_address" ]; then domain_name="$(hostname -I 2>/dev/null | awk '{print $1}')"; fi
+[ -n "$domain_name" ] || domain_name="127.0.0.1"
+log "Domain will be: $domain_name"
+
+# 4) get the domain_uuid and insert (idempotent)
+domain_uuid="$($PHP "$FUSIONPBX_DIR/resources/uuid.php")"
+$PSQL --host="$database_host" --port="$database_port" --username="$database_username" \
+  -d "$database_name" -c "
+  INSERT INTO v_domains (domain_uuid, domain_name, domain_enabled)
+  SELECT '$domain_uuid', '$domain_name', 'true'
+  WHERE NOT EXISTS (
+    SELECT 1 FROM v_domains WHERE domain_name = '$domain_name'
+  );"
+
+# 5) run app defaults
+log "Running --defaults"
+$PHP -d display_errors=1 "$FUSIONPBX_DIR/core/upgrade/upgrade.php" --defaults
+
+# 6) add the user (salt + md5 like original)
+user_uuid="$($PHP "$FUSIONPBX_DIR/resources/uuid.php")"
+user_salt="$($PHP "$FUSIONPBX_DIR/resources/uuid.php")"
+[ "$system_password" = "random" ] && user_password="$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 24)" || user_password="$system_password"
+password_hash="$($PHP -r "echo md5('$user_salt$user_password');")"
+log "Creating/ensuring user ${system_username}"
+$PSQL --host="$database_host" --port="$database_port" --username="$database_username" -d "$database_name" -c "
+  INSERT INTO v_users (user_uuid, domain_uuid, username, password, salt, user_enabled)
+  SELECT '$user_uuid', '$domain_uuid', '$system_username', '$password_hash', '$user_salt', 'true'
+  WHERE NOT EXISTS (
+    SELECT 1 FROM v_users
+    WHERE username = '$system_username' AND domain_uuid = '$domain_uuid'
+  );"
+
+# 7) add to superadmin
+group_uuid="$($PSQL --host="$database_host" --port="$database_port" --username="$database_username" -d "$database_name" -qtAX -c "select group_uuid from v_groups where group_name = 'superadmin' limit 1;")"
+[ -n "$group_uuid" ] || { echo "superadmin group missing"; exit 1; }
+user_group_uuid="$($PHP "$FUSIONPBX_DIR/resources/uuid.php")"
+$PSQL --host="$database_host" --port="$database_port" --username="$database_username" -d "$database_name" -c "
+  INSERT INTO v_user_groups (user_group_uuid, domain_uuid, group_name, group_uuid, user_uuid)
+  SELECT '$user_group_uuid', '$domain_uuid', 'superadmin', '$group_uuid', '$user_uuid'
+  WHERE NOT EXISTS (
+    SELECT 1 FROM v_user_groups
+    WHERE user_uuid = '$user_uuid' AND group_uuid = '$group_uuid'
+  );"
+
+# 8) update permissions and services
+log "Running --permissions"
+$PHP -d display_errors=1 "$FUSIONPBX_DIR/core/upgrade/upgrade.php" --permissions || true
+log "Running --services"
+$PHP -d display_errors=1 "$FUSIONPBX_DIR/core/upgrade/upgrade.php" --services   || true
+
+# 9) runtime dir
+mkdir -p /var/run/fusionpbx && chown -R www-data:www-data /var/run/fusionpbx || true
+
+# 10) summary (like your echoes)
+echo ""
+echo "Installation Notes."
+echo "   Use a web browser to login."
+echo "      domain name: https://$domain_name"
+echo "      username: $system_username"
+echo "      password: $user_password"
+echo ""
+echo "   If you need to login to a different domain then use username@domain."
+echo "      username: $system_username@$domain_name"
+echo ""
+
+unset PGPASSWORD
+IN_CONTAINER
+
+# Start FreeSWITCH and nginx (separate containers)
+echo "[setup] Starting FreeSWITCH…"
+$COMPOSE -f "$COMPOSE_FILE" up -d "$SVC_FS" || true
+
+echo "[setup] Starting nginx…"
+$COMPOSE -f "$COMPOSE_FILE" up -d "$SVC_NGX" || true
+
+# Final hint
+if [ "${DOMAIN_NAME}" = "hostname" ]; then
+  HOST_URL="$(hostname -f 2>/dev/null || hostname)"
+elif [ "${DOMAIN_NAME}" = "ip_address" ]; then
+  HOST_URL="$(hostname -I 2>/dev/null | awk '{print $1}')"
+else
+  HOST_URL="${DOMAIN_NAME}"
+fi
+
+echo
+echo "FusionPBX is up. Open: https://${HOST_URL}  (443) or http://localhost:8080"
+echo "Admin: ${SYSTEM_USERNAME}   Password: ${SYSTEM_PASSWORD}"
+echo

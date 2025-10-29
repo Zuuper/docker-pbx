@@ -19,16 +19,8 @@ export PGPASSWORD=$database_password
 #update the database password
 #sudo -u postgres psql --host=$database_host --port=$database_port --username=$database_username -c "ALTER USER fusionpbx WITH PASSWORD '$database_password';"
 #sudo -u postgres psql --host=$database_host --port=$database_port --username=$database_username -c "ALTER USER freeswitch WITH PASSWORD '$database_password';"
-sudo -u postgres psql -c "ALTER USER fusionpbx WITH PASSWORD '$database_password';"
-sudo -u postgres psql -c "ALTER USER freeswitch WITH PASSWORD '$database_password';"
 
-#install the database backup
-cp backup/fusionpbx-backup /etc/cron.daily
-cp backup/fusionpbx-maintenance /etc/cron.daily
-chmod 755 /etc/cron.daily/fusionpbx-backup
-chmod 755 /etc/cron.daily/fusionpbx-maintenance
-sed -i "s/zzz/$database_password/g" /etc/cron.daily/fusionpbx-backup
-sed -i "s/zzz/$database_password/g" /etc/cron.daily/fusionpbx-maintenance
+
 
 #add the config.conf
 mkdir -p /etc/fusionpbx

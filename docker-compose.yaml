@@ -101,6 +101,15 @@ services:
       retries: 10
       start_period: 30s
 
+    environment:
+      DATABASE_HOST: ${POSTGRES_HOST:-pbx_postgres}
+      DATABASE_PORT: ${POSTGRES_PORT:-5432}
+      DATABASE_NAME: ${POSTGRES_DB:-fusionpbx}
+      DATABASE_USERNAME: ${POSTGRES_USER:-fusionpbx}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-12345678}
+      SYSTEM_BRANCH: master
+      FUSIONPBX_COOKIE_SECURE: "false" # flip to true when behind TLS
+
   pbx_freeswitch:
     container_name: pbx_freeswitch
     build: ./freeswitch
