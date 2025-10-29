@@ -28,18 +28,18 @@ RUN apt-get update \
 #     jail.local
 #
 # If you don't have some of them, either add them or delete the COPY lines below.
-COPY fail2ban/freeswitch.conf            /etc/fail2ban/filter.d/freeswitch.conf
-COPY fail2ban/freeswitch-acl.conf        /etc/fail2ban/filter.d/freeswitch-acl.conf
-COPY fail2ban/sip-auth-failure.conf      /etc/fail2ban/filter.d/sip-auth-failure.conf
-COPY fail2ban/sip-auth-challenge.conf    /etc/fail2ban/filter.d/sip-auth-challenge.conf
-COPY fail2ban/auth-challenge-ip.conf     /etc/fail2ban/filter.d/auth-challenge-ip.conf
-COPY fail2ban/freeswitch-ip.conf         /etc/fail2ban/filter.d/freeswitch-ip.conf
-COPY fail2ban/fusionpbx.conf             /etc/fail2ban/filter.d/fusionpbx.conf
-COPY fail2ban/fusionpbx-mac.conf         /etc/fail2ban/filter.d/fusionpbx-mac.conf
-COPY fail2ban/fusionpbx-404.conf         /etc/fail2ban/filter.d/fusionpbx-404.conf
-COPY fail2ban/nginx-404.conf             /etc/fail2ban/filter.d/nginx-404.conf
-COPY fail2ban/nginx-dos.conf             /etc/fail2ban/filter.d/nginx-dos.conf
-COPY fail2ban/jail.local                 /etc/fail2ban/jail.local
+COPY freeswitch.conf            /etc/fail2ban/filter.d/freeswitch.conf
+COPY freeswitch-acl.conf        /etc/fail2ban/filter.d/freeswitch-acl.conf
+COPY sip-auth-failure.conf      /etc/fail2ban/filter.d/sip-auth-failure.conf
+COPY sip-auth-challenge.conf    /etc/fail2ban/filter.d/sip-auth-challenge.conf
+COPY auth-challenge-ip.conf     /etc/fail2ban/filter.d/auth-challenge-ip.conf
+COPY freeswitch-ip.conf         /etc/fail2ban/filter.d/freeswitch-ip.conf
+COPY fusionpbx.conf             /etc/fail2ban/filter.d/fusionpbx.conf
+COPY fusionpbx-mac.conf         /etc/fail2ban/filter.d/fusionpbx-mac.conf
+COPY fusionpbx-404.conf         /etc/fail2ban/filter.d/fusionpbx-404.conf
+COPY nginx-404.conf             /etc/fail2ban/filter.d/nginx-404.conf
+COPY nginx-dos.conf             /etc/fail2ban/filter.d/nginx-dos.conf
+COPY jail.local                 /etc/fail2ban/jail.local
 
 # Create runtime dirs
 RUN mkdir -p /var/run/fail2ban /var/log/fail2ban

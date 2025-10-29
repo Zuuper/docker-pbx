@@ -1,5 +1,5 @@
 # Minimal, predictable base
-FROM debian:bookworm-slim
+FROM php:8.2-fpm-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -8,7 +8,7 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends \
   git dbus haveged ssl-cert qrencode \
   ghostscript libtiff5-dev libtiff-tools at \
-  vim ca-certificates \
+  vim ca-certificates postgresql-client\
   && rm -rf /var/lib/apt/lists/*
 
 # Where we'll stash the config used by entrypoint
@@ -26,6 +26,6 @@ RUN chmod +x /usr/local/bin/entrypoint.sh \
 WORKDIR /var/www
 
 # Let users mount these if desired
-VOLUME ["/var/www", "/docker"]
+VOLUME ["/docker"]
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

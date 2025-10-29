@@ -1,5 +1,5 @@
 [ssh]
-enabled  = true
+enabled  = false
 port     = 22
 protocol = ssh
 filter   = sshd
@@ -99,7 +99,7 @@ enabled  = true
 port     = 80,443
 protocol = tcp
 filter   = fusionpbx
-logpath  = /var/log/auth.log
+logpath  = /var/www/fusionpbx/resources/log/*.log
 action   = iptables-allports[name=fusionpbx, protocol=all]
 #          sendmail-whois[name=fusionpbx, dest=root, sender=fail2ban@example.org] #no smtp server installed
 maxretry = 20

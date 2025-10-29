@@ -1,5 +1,6 @@
 services:
   pbx_postgres:
+    container_name: pbx_postgres
     image: postgres:17
     restart: always
     env_file:
@@ -24,6 +25,7 @@ services:
       timeout: 5s
       retries: 5
   pbx_pgadmin:
+    container_name: pbx_pgadmin
     image: dpage/pgadmin4:latest
     restart: always
     env_file:
@@ -34,16 +36,16 @@ services:
     ports:
       - 5050:80
     networks:
-      - fusionpbx_networks
+      - fusionpbx_internal
     depends_on:
-      postgres:
+      pbx_postgres:
         condition: service_healthy
     profiles:
       - tools
 
   pbx_nginx:
     image: nginx:stable
-    container_name: nginx
+    container_name: pbx_nginx
     restart: always
     ports:
       - 8080:80
@@ -51,12 +53,14 @@ services:
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - fusionpbx_:/var/www/fusionpbx:ro
+      - nginx_logs:/var/log/nginx
     networks:
       - fusionpbx_edge
       - fusionpbx_internal
 
   # Setup IPTables
   pbx_firewall:
+    container_name: pbx_firewall
     build:
       context: ./iptables
     network_mode: "service:pbx_nginx"
@@ -66,6 +70,7 @@ services:
     depends_on: [pbx_nginx]
 
   pbx_sngrep:
+    container_name: pbx_sngrep
     build:
       context: ./sngrep
     network_mode: "service:pbx_nginx"
@@ -79,11 +84,12 @@ services:
     command: ["sngrep", "-O", "/tmp/captures"]
 
   pbx_fusionpbx:
+    container_name: pbx_fusion
     build: ./fusionpbx
     restart: "always"
     volumes:
       # This is where FusionPBX code will live, persisted, and shared to nginx
-      - fusionpbx_:/var/www
+      - fusionpbx_:/var/www/fusionpbx
       # Feed only config.sh, like you insisted
       - ./fusionpbx/config.sh:/docker/config.sh:ro
     networks:
@@ -96,19 +102,20 @@ services:
       start_period: 30s
 
   pbx_freeswitch:
+    container_name: pbx_freeswitch
     build: ./freeswitch
     restart: no
     environment:
       TZ: ${TZ:-UTC}
-      FS_BIN: /usr/bin/freeswitch
-      FS_ETC: /etc/freeswitch
-      FS_VAR: /var/lib/freeswitch
-      FS_LOG: /var/log/freeswitch
-      FS_USER: www-data
-      FS_GROUP: www-data
-      FS_FOREGROUND: "1"
-      FS_DEBUG: "1"
-      FS_CONF_SOURCE: /opt/freeswitch/defaults
+      FS_BIN: ${FS_BIN:-/usr/bin/freeswitch}
+      FS_ETC: ${FS_ETC:-/etc/freeswitch}
+      FS_VAR: ${FS_VAR:-/var/lib/freeswitch}
+      FS_LOG: ${FS_LOG:-/var/log/freeswitch}
+      FS_USER: ${FS_USER:-www-data}
+      FS_GROUP: ${FS_GROUP:-www-data}
+      FS_FOREGROUND: ${FS_FOREGROUND:-1}
+      FS_DEBUG: ${FS_DEBUG:-1}
+      FS_CONF_SOURCE: ${FS_CONF_SOURCE:-/opt/freeswitch/defaults}
       # Optional: mount a folder with your conf to seed on first run
       # FS_DEFAULTS_DIR: /opt/freeswitch/defaults
     ulimits:
@@ -129,12 +136,46 @@ services:
       - ./freeswitch/defaults:/etc/freeswitch # named volume, empty on first run
       - fs_var:/var/lib/freeswitch
       - fs_logs:/var/log/freeswitch
+  pbx_fail2ban:
+    container_name: pbx_fail2ban
+    build:
+      context: ./fail2ban
+    # Share the network namespace with nginx so bans hit the ingress
+    network_mode: "service:pbx_nginx"
+    depends_on:
+      - pbx_nginx
+      - pbx_freeswitch
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    restart: always
+    # Read logs from FS and nginx; persist fail2ban state if you care
+    volumes:
+      - fs_logs:/var/log/freeswitch:ro
+      - nginx_logs:/var/log/nginx:ro
+      - fail2ban_data:/var/lib/fail2ban
+      - fusionpbx_:/var/www:ro
+      # uncomment if you want to live-edit jails on the host:
+      - ./fail2ban/jail.local:/etc/fail2ban/jail.local:ro
+    # Optional tweaks at runtime
+    environment:
+      TZ: ${TZ:-UTC}
+      DISABLE_RSYSLOG: "1"
+      DISABLE_SSHD: "1"
+    # Healthcheck so you know when it’s not just pretending
+    healthcheck:
+      test: ["CMD-SHELL", "fail2ban-client ping >/dev/null 2>&1"]
+      interval: 30s
+      timeout: 5s
+      retries: 10
 
 volumes:
   fusionpbx_:
   fusionpbxdata:
   fs_var:
   fs_logs:
+  nginx_logs: # <— new, for nginx logs
+  fail2ban_data: # <— optional, keeps ban history between restarts
 
 networks:
   fusionpbx_edge:

@@ -47,18 +47,60 @@ git_safe_dir() {
 }
 
 # Clone/update FusionPBX
-if [[ ! -d "$FUSIONPBX_DIR/.git" ]]; then
-  log "Cloning FusionPBX into $FUSIONPBX_DIR"
-  rm -rf "$FUSIONPBX_DIR"
-  git clone "${GIT_BRANCH_ARGS[@]}" https://github.com/fusionpbx/fusionpbx.git "$FUSIONPBX_DIR"
-  chown -R www-data:www-data "$FUSIONPBX_DIR"
-else
+# --- helpers ---
+is_mount() { command -v mountpoint >/dev/null 2>&1 && mountpoint -q "$1"; }
+is_empty_dir() { [ -d "$1" ] && [ -z "$(ls -A "$1" 2>/dev/null)" ]; }
+
+# Ensure target dir exists
+mkdir -p "$FUSIONPBX_DIR"
+
+# Decide action based on what's there
+if [[ -d "$FUSIONPBX_DIR/.git" ]]; then
   log "Existing FusionPBX repo detected; pulling latest"
   git_safe_dir "$FUSIONPBX_DIR"
-  git -C "$FUSIONPBX_DIR" fetch --all --prune
-  git -C "$FUSIONPBX_DIR" reset --hard "origin/${system_branch:-master}" || true
+  git -C "$FUSIONPBX_DIR" fetch --all --prune || true
+  # Pick branch target
+  TARGET_BRANCH="${system_branch:-master}"
+  if [[ "$TARGET_BRANCH" == "master" ]]; then
+    git -C "$FUSIONPBX_DIR" reset --hard origin/master || true
+  else
+    log "Using version branch: $TARGET_BRANCH"
+    git -C "$FUSIONPBX_DIR" reset --hard "origin/$TARGET_BRANCH" || true
+  fi
   chown -R www-data:www-data "$FUSIONPBX_DIR"
+
+elif is_empty_dir "$FUSIONPBX_DIR"; then
+  # Empty dir: safe to clone into
+  if [[ "$system_branch" != "master" && -n "$system_branch" ]]; then
+    log "Using version branch: $system_branch"
+    GIT_BRANCH_ARGS=(-b "$system_branch")
+  else
+    log "Using master branch"
+    GIT_BRANCH_ARGS=()
+  fi
+  log "Cloning FusionPBX into $FUSIONPBX_DIR"
+  git clone --depth=1 "${GIT_BRANCH_ARGS[@]}" https://github.com/fusionpbx/fusionpbx.git "$FUSIONPBX_DIR"
+  chown -R www-data:www-data "$FUSIONPBX_DIR"
+
+else
+  # Non-empty and not a git repo: do NOT try to wipe if it's a mount
+  if is_mount "$FUSIONPBX_DIR"; then
+    die "Target $FUSIONPBX_DIR is a mounted, non-empty, non-git directory. Refusing to overwrite. Clear it yourself or point FUSIONPBX_DIR elsewhere."
+  else
+    log "Non-mounted directory with junk; replacing contents"
+    rm -rf "$FUSIONPBX_DIR"
+    if [[ "$system_branch" != "master" && -n "$system_branch" ]]; then
+      log "Using version branch: $system_branch"
+      GIT_BRANCH_ARGS=(-b "$system_branch")
+    else
+      log "Using master branch"
+      GIT_BRANCH_ARGS=()
+    fi
+    git clone --depth=1 "${GIT_BRANCH_ARGS[@]}" https://github.com/fusionpbx/fusionpbx.git "$FUSIONPBX_DIR"
+    chown -R www-data:www-data "$FUSIONPBX_DIR"
+  fi
 fi
+
 
 # Optional applications
 apps_dir="$FUSIONPBX_DIR/app"
@@ -97,5 +139,20 @@ clone_app "$application_sip_trunks"     https://github.com/fusionpbx/fusionpbx-a
 chown -R www-data:www-data "$FUSIONPBX_DIR"
 
 log "FusionPBX setup complete."
-# This container is just a setup step; keep it running for interactive use.
-exec tail -f /dev/null
+
+# Ensure FusionPBX app log exists for Fail2ban
+FUSIONPBX_LOG_DIR="${FUSIONPBX_LOG_DIR:-$FUSIONPBX_DIR/resources/log}"
+FUSIONPBX_LOG_FILE="${FUSIONPBX_LOG_FILE:-$FUSIONPBX_LOG_DIR/fusionpbx.log}"
+
+mkdir -p "$FUSIONPBX_LOG_DIR"
+# create if missing so fail2ban's glob isn't empty
+[ -f "$FUSIONPBX_LOG_FILE" ] || touch "$FUSIONPBX_LOG_FILE"
+
+# sane perms so web app can write and fail2ban can read
+chown -R www-data:www-data "$FUSIONPBX_LOG_DIR"
+chmod 775 "$FUSIONPBX_LOG_DIR"
+chmod 664 "$FUSIONPBX_LOG_FILE"
+
+log "Ensured FusionPBX log at $FUSIONPBX_LOG_FILE"
+
+exec docker-php-entrypoint php-fpm -F
