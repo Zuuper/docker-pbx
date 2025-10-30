@@ -2,17 +2,19 @@
 <document type="freeswitch/xml">
   <section name="variables">
     <!-- Pick something resolvable by your containers -->
-    <X-PRE-PROCESS cmd="set" data="domain=pbx.local"/>
-    <X-PRE-PROCESS cmd="set" data="local_ip_v4=your.private.ip.or.hostname"/>
-    <X-PRE-PROCESS cmd="set" data="external_sip_ip=your.public.ip"/>
-    <X-PRE-PROCESS cmd="set" data="external_rtp_ip=your.public.ip"/>
+    <X-PRE-PROCESS cmd="set" data="domain=pbx.example.com"/>
+    <X-PRE-PROCESS cmd="set" data="local_ip_v4=172.29.16.1"/>
+    <X-PRE-PROCESS cmd="set" data="external_sip_ip=auto-nat"/>
+    <X-PRE-PROCESS cmd="set" data="external_rtp_ip=auto-nat"/>
 
+    <X-PRE-PROCESS cmd="set" data="internal_sip_port=5060"/>";
+    <X-PRE-PROCESS cmd="set" data="external_sip_port=5080"/>"
     <!-- RTP window must match docker published ports -->
-    <X-PRE-PROCESS cmd="set" data="rtp-start-port=30000"/>
-    <X-PRE-PROCESS cmd="set" data="rtp-end-port=30100"/>
+    <X-PRE-PROCESS cmd="set" data="rtp_start_port=30000"/>
+    <X-PRE-PROCESS cmd="set" data="rtp_end_port=30100"/>
 
     <!-- ESL password used by FS CLI and FusionPBX installer -->
-    <X-PRE-PROCESS cmd="set" data="event_socket_password=verysecret"/>
+    <X-PRE-PROCESS cmd="set" data="event_socket_password=12345678"/>
 
     <!-- Reasonable default codecs -->
     <X-PRE-PROCESS cmd="set" data="global_codec_prefs=opus,PCMU,PCMA,G722"/>

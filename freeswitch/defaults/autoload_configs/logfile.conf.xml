@@ -1,0 +1,9 @@
+<configuration name="logfile.conf" description="File Logging">
+  <settings>
+    <param name="logfile" value="/var/log/freeswitch/freeswitch.log"/>
+    <param name="rollover" value="true"/>
+    <param name="maximum-rotate" value="7"/>
+    <param name="rotation-size" value="2000000"/>
+    <param name="level" value="debug"/>
+  </settings>
+</configuration>

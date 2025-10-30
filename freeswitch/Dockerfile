@@ -190,6 +190,8 @@ RUN set -eux; \
 # 10) Entrypoint
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN sed -i 's/\r$//' /usr/local/bin/entrypoint.sh && chmod +x /usr/local/bin/entrypoint.sh
+COPY config.sh /docker/config.sh
+RUN chmod +x /docker/config.sh
 
 EXPOSE 5060/tcp 5060/udp 5080/tcp 5080/udp 8021/tcp
 HEALTHCHECK --interval=30s --timeout=10s --retries=5 \

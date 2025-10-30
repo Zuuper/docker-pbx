@@ -74,6 +74,8 @@ fi
 
 # Start FreeSWITCH
 log "Starting FreeSWITCH"
+/docker/config.sh true
+
 if [[ "${FS_FOREGROUND:-0}" == "1" ]]; then
   # Foreground, no daemon, for debugging
   exec su -s /bin/bash -c "\"$FS_BIN\" -u \"$FS_USER\" -g \"$FS_GROUP\" -nf -nonat" "$FS_USER"
