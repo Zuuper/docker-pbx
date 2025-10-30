@@ -145,6 +145,8 @@ services:
       - ./freeswitch/defaults:/etc/freeswitch # named volume, empty on first run
       - fs_var:/var/lib/freeswitch
       - fs_logs:/var/log/freeswitch
+    networks:
+      - fusionpbx_internal
   pbx_fail2ban:
     container_name: pbx_fail2ban
     build:
