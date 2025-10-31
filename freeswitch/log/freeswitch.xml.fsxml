@@ -1,0 +1,146 @@
+<document type="freeswitch/xml">
+  <section name="configuration">
+<document type="freeswitch/xml">
+  <section name="variables">
+    <!-- Pick something resolvable by your containers -->
+
+    <!-- RTP window must match docker published ports -->
+
+    <!-- ESL password used by FS CLI and FusionPBX installer -->
+
+    <!-- Reasonable default codecs -->
+
+    <!-- Misc -->
+  </section>
+</document>
+<configuration name="acl.conf" description="ACLs">
+  <network-lists>
+    <list name="domains" default="deny">
+      <node type="allow" domain="pbx.local"/>
+      <node type="allow" cidr="127.0.0.1/32"/>
+      <node type="allow" cidr="::1/128"/>
+    </list>
+  </network-lists>
+</configuration>
+<configuration name="event_socket.conf" description="Event Socket">
+  <settings>
+    <param name="listen-ip" value="0.0.0.0"/>
+    <param name="listen-port" value="8021"/>
+    <param name="password" value="12345678"/>
+    <!-- <param name="stop-on-bind-error" value="true"/> -->
+  </settings>
+</configuration><configuration name="logfile.conf" description="File Logging">
+  <settings>
+    <param name="logfile" value="/var/log/freeswitch/freeswitch.log"/>
+    <param name="rollover" value="true"/>
+    <param name="maximum-rotate" value="7"/>
+    <param name="rotation-size" value="2000000"/>
+    <param name="level" value="debug"/>
+  </settings>
+</configuration><configuration name="modules.conf" description="Modules">
+  <modules>
+    <load module="mod_console"/>
+    <load module="mod_logfile"/>
+    <load module="mod_sofia"/>
+    <load module="mod_dptools"/>
+    <load module="mod_commands"/>
+    <load module="mod_tone_stream"/>
+    <load module="mod_loopback"/>
+    <load module="mod_conference"/>
+    <load module="mod_xml_cdr"/>
+    <load module="mod_xml_curl"/>
+    <load module="mod_hash"/>
+    <load module="mod_db"/>
+    <load module="mod_dialplan_xml"/>
+    <load module="mod_event_socket"/>
+    <load module="mod_expr"/>
+    <load module="mod_sndfile"/>
+    <load module="mod_native_file"/>
+    <load module="mod_g722"/>
+    <load module="mod_opus"/>
+    <load module="mod_l16"/>
+  </modules>
+</configuration>
+<configuration name="sofia.conf" description="SIP Stack">
+  <global_settings>
+    <param name="debug" value="0"/>
+    <param name="log-level" value="3"/>
+  </global_settings>
+  <profiles>
+<profile name="external">
+  <gateways/>
+  <aliases/>
+  <domains>
+    <domain name="pbx.local"/>
+  </domains>
+  <settings>
+    <param name="user-agent-string" value="FreeSWITCH"/>
+    <param name="sip-port" value="5080"/>
+    <param name="sip-ip" value="0.0.0.0"/>
+    <param name="rtp-ip" value="0.0.0.0"/>
+    <param name="ext-rtp-ip" value="auto-nat"/>
+    <param name="ext-sip-ip" value="auto-nat"/>
+    <param name="nonce-ttl" value="60"/>
+    <param name="accept-blind-reg" value="false"/>
+    <param name="auth-calls" value="true"/>
+    <param name="context" value="public"/>
+    <param name="inbound-codec-prefs" value="opus,PCMU,PCMA,G722"/>
+  </settings>
+</profile>
+<profile name="internal">
+  <gateways/>
+  <aliases/>
+  <domains>
+    <domain name="pbx.local"/>
+  </domains>
+  <settings>
+    <param name="user-agent-string" value="FreeSWITCH"/>
+    <param name="sip-port" value="5060"/>
+    <param name="sip-ip" value="0.0.0.0"/>
+    <param name="rtp-ip" value="0.0.0.0"/>
+    <param name="ext-rtp-ip" value="auto-nat"/>
+    <param name="ext-sip-ip" value="auto-nat"/>
+    <param name="accept-blind-reg" value="true"/>
+    <param name="auth-calls" value="false"/>
+    <param name="context" value="public"/>
+    <param name="inbound-codec-prefs" value="opus,PCMU,PCMA,G722"/>
+    <param name="rtp-timeout-sec" value="300"/>
+    <param name="rtp-hold-timeout-sec" value="1800"/>
+    <!-- <param name="force-register-domain" value="localhost"/> -->
+  </settings>
+</profile>
+  </profiles>
+</configuration><configuration name="switch.conf" description="Core">
+  <settings>
+    <param name="base-dir" value="/"/>
+    <param name="recordings-dir" value="/var/lib/freeswitch/recordings"/>
+    <param name="sounds-dir" value="/usr/share/freeswitch/sounds"/>
+    <param name="log-dir" value="/var/log/freeswitch"/>
+    <param name="run-as-user" value="www-data"/>
+    <param name="run-as-group" value="www-data"/>
+    <param name="rtp-start-port" value=""/>
+    <param name="rtp-end-port" value=""/>
+  </settings>
+</configuration>
+<configuration name="xml_handler.conf" description="XML Handler">
+  <settings>
+    <param name="script" value="/var/www/fusionpbx/app/switch/resources/scripts/app/xml_handler/index.lua"/>
+    <param name="reload" value="true"/>
+  </settings>
+</configuration>
+  </section>
+  <section name="dialplan">
+  <extension name="echo">
+    <condition field="destination_number" expression="^9196$">
+      <action application="echo"/>
+    </condition>
+  </extension>
+  <extension name="tone">
+    <condition field="destination_number" expression="^9198$">
+      <action application="playback" data="tone_stream://%(200,200,440)"/>
+    </condition>
+  </extension>
+  </section>
+  <section name="directory">
+  </section>
+</document>

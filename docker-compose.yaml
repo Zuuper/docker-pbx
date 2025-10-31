@@ -125,7 +125,7 @@ services:
       FS_FOREGROUND: ${FS_FOREGROUND:-1}
       FS_DEBUG: ${FS_DEBUG:-1}
       FS_CONF_SOURCE: ${FS_CONF_SOURCE:-/opt/freeswitch/defaults}
-      DOMAIN: pbx.example.com
+      DOMAIN: pbx.local
       EXTERNAL_SIP_IP: auto-nat # or your static IP
       EXTERNAL_RTP_IP: auto-nat
       INTERNAL_SIP_PORT: "5060"
@@ -134,7 +134,6 @@ services:
       RTP_END: "30100"
       INBOUND_ACL: domains # or localnet.auto
       ESL_PASSWORD: "12345678"
-      LOCAL_IP_V4: "172.29.16.1"
       # Optional: mount a folder with your conf to seed on first run
       # FS_DEFAULTS_DIR: /opt/freeswitch/defaults
     ulimits:
@@ -154,10 +153,13 @@ services:
     volumes:
       - ./freeswitch/defaults:/etc/freeswitch # named volume, empty on first run
       - fs_var:/var/lib/freeswitch
-      - fs_logs:/var/log/freeswitch
+      - ./freeswitch/log:/var/log/freeswitch
       - ./freeswitch/config.sh:/docker/config.sh:ro
-    command:
-      ["/bin/bash", "/docker/config.sh", "/usr/bin/freeswitch", "-nonat", "-nf"]
+      - fusionpbx_:/var/www/fusionpbx:ro
+
+    command: ["/usr/bin/freeswitch", "-nf"]
+    depends_on:
+      - pbx_nginx
     networks:
       - fusionpbx_internal
   pbx_fail2ban:

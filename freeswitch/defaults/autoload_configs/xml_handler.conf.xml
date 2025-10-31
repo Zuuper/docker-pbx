@@ -1,0 +1,6 @@
+<configuration name="xml_handler.conf" description="XML Handler">
+  <settings>
+    <param name="script" value="/var/www/fusionpbx/app/switch/resources/scripts/app/xml_handler/index.lua"/>
+    <param name="reload" value="true"/>
+  </settings>
+</configuration>

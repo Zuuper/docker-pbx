@@ -2,13 +2,13 @@
 <document type="freeswitch/xml">
   <section name="variables">
     <!-- Pick something resolvable by your containers -->
-    <X-PRE-PROCESS cmd="set" data="domain=pbx.example.com"/>
-    <X-PRE-PROCESS cmd="set" data="local_ip_v4=172.29.16.1"/>
+    <X-PRE-PROCESS cmd="set" data="domain=pbx.local"/>
+    <X-PRE-PROCESS cmd="set" data="local_ip_v4=172.23.0.6"/>
     <X-PRE-PROCESS cmd="set" data="external_sip_ip=auto-nat"/>
     <X-PRE-PROCESS cmd="set" data="external_rtp_ip=auto-nat"/>
 
-    <X-PRE-PROCESS cmd="set" data="internal_sip_port=5060"/>";
-    <X-PRE-PROCESS cmd="set" data="external_sip_port=5080"/>"
+    <X-PRE-PROCESS cmd="set" data="internal_sip_port=5060"/>
+    <X-PRE-PROCESS cmd="set" data="external_sip_port=5080"/>
     <!-- RTP window must match docker published ports -->
     <X-PRE-PROCESS cmd="set" data="rtp_start_port=30000"/>
     <X-PRE-PROCESS cmd="set" data="rtp_end_port=30100"/>

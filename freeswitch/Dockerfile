@@ -132,6 +132,7 @@ RUN set -eux; \
   tweak_file "$f" "applications/mod_cidlookup"  enable; \
   tweak_file "$f" "applications/mod_memcache"   enable; \
   tweak_file "$f" "applications/mod_curl"       enable; \
+  tweak_file "$f" "xml_int/mod_xml_curl" enable;   \
   tweak_file "$f" "applications/mod_spandsp"    disable; \
   tweak_file "$f" "formats/mod_shout"           enable; \
   tweak_file "$f" "formats/mod_pgsql"           enable; \

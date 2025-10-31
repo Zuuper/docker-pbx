@@ -10,6 +10,7 @@
     <load module="mod_loopback"/>
     <load module="mod_conference"/>
     <load module="mod_xml_cdr"/>
+    <load module="mod_xml_curl"/>
     <load module="mod_hash"/>
     <load module="mod_db"/>
     <load module="mod_dialplan_xml"/>

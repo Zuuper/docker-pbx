@@ -72,6 +72,17 @@ if [[ "${FS_DEBUG:-0}" == "1" ]]; then
   find "$FS_ETC" -maxdepth 1 -type f -name '*.xml' -print | head -n 20 || true
 fi
 
+LOG_DIR="/var/log/freeswitch"
+
+# make sure log dir exists with sane ownership
+if [ ! -d "$LOG_DIR" ]; then
+  echo "Creating $LOG_DIR..."
+  mkdir -p "$LOG_DIR"
+fi
+
+chown -R www-data:www-data "$LOG_DIR"
+chmod 755 "$LOG_DIR"
+
 # Start FreeSWITCH
 log "Starting FreeSWITCH"
 /docker/config.sh true

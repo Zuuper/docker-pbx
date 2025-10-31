@@ -33,6 +33,8 @@ EXTERNAL_XML="$FS_ETC/sip_profiles/external.xml"
 ESL_XML="$FS_ETC/autoload_configs/event_socket.conf.xml"
 SOFIA_XML="$FS_ETC/autoload_configs/sofia.conf.xml"
 
+echo ${VARS_XML}
+
 # -------------------------------------------------------
 
 # Helper: find a local IP if not provided
@@ -116,8 +118,6 @@ if [[ -f "$INTERNAL_XML" ]]; then
     -e "s#name=\"sip-ip\" value=\"[^\"]*\"#name=\"sip-ip\" value=\"0.0.0.0\"#g" \
     -e "s#name=\"rtp-ip\" value=\"[^\"]*\"#name=\"rtp-ip\" value=\"0.0.0.0\"#g" \
     -e "s#name=\"sip-port\" value=\"[^\"]*\"#name=\"sip-port\" value=\"$INTERNAL_SIP_PORT\"#g" \
-    -e "s#name=\"sip-ip\" value=\"[^\"]*\"#name=\"sip-ip\" value=\"auto\"#g" \
-    -e "s#name=\"rtp-ip\" value=\"[^\"]*\"#name=\"rtp-ip\" value=\"auto\"#g" \
     -e "s#name=\"ext-sip-ip\" value=\"[^\"]*\"#name=\"ext-sip-ip\" value=\"\$\${external_sip_ip}\"#g" \
     -e "s#name=\"ext-rtp-ip\" value=\"[^\"]*\"#name=\"ext-rtp-ip\" value=\"\$\${external_rtp_ip}\"#g" \
     -e "s#name=\"apply-inbound-acl\" value=\"[^\"]*\"#name=\"apply-inbound-acl\" value=\"$INBOUND_ACL\"#g" \
@@ -133,8 +133,8 @@ fi
 if [[ -f "$EXTERNAL_XML" ]]; then
   sed -i \
     -e "s#name=\"sip-port\" value=\"[^\"]*\"#name=\"sip-port\" value=\"$EXTERNAL_SIP_PORT\"#g" \
-    -e "s#name=\"sip-ip\" value=\"[^\"]*\"#name=\"sip-ip\" value=\"auto\"#g" \
-    -e "s#name=\"rtp-ip\" value=\"[^\"]*\"#name=\"rtp-ip\" value=\"auto\"#g" \
+    -e "s#name=\"sip-ip\" value=\"[^\"]*\"#name=\"sip-ip\" value=\"0.0.0.0\"#g" \
+    -e "s#name=\"rtp-ip\" value=\"[^\"]*\"#name=\"rtp-ip\" value=\"0.0.0.0\"#g" \
     -e "s#name=\"ext-sip-ip\" value=\"[^\"]*\"#name=\"ext-sip-ip\" value=\"\$\${external_sip_ip}\"#g" \
     -e "s#name=\"ext-rtp-ip\" value=\"[^\"]*\"#name=\"ext-rtp-ip\" value=\"\$\${external_rtp_ip}\"#g" \
     "$EXTERNAL_XML" || true
