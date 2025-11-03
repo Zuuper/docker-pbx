@@ -7868,3 +7868,717 @@ stack traceback:
 2025-11-03 06:55:18.668062 95.20% [NOTICE] switch_loadable_module.c:1285 Deleting API Function 'sndfile_debug'
 2025-11-03 06:55:18.668062 95.20% [DEBUG] switch_loadable_module.c:1287 Write lock interface 'sndfile_debug' to wait for existing references.
 2025-11-03 06:55:18.668062 95.20% [DEBUG] switch_loadable_module.c:1350 Write lock interface 'mod_sndfile' to wait for existing references.
+2025-11-03 06:56:23.640193 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.640214 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.641376 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.641392 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.641557 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'console'
+2025-11-03 06:56:23.642856 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.642868 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.644166 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.644399 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.650203 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'callcenter'
+2025-11-03 06:56:23.650277 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'callcenter_track'
+2025-11-03 06:56:23.650363 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'callcenter_config'
+2025-11-03 06:56:23.650584 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'callcenter_break'
+2025-11-03 06:56:23.650695 0.00% [NOTICE] switch_loadable_module.c:419 Adding JSON API Function 'callcenter_config'
+2025-11-03 06:56:23.652299 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.652344 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.653395 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.653443 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.657959 0.00% [INFO] switch_core_sqldb.c:1840 fifo Starting SQL thread.
+2025-11-03 06:56:23.663384 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'fifo'
+2025-11-03 06:56:23.663426 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'fifo_track_call'
+2025-11-03 06:56:23.663479 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'fifo'
+2025-11-03 06:56:23.663538 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'fifo_member'
+2025-11-03 06:56:23.663651 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'fifo_add_outbound'
+2025-11-03 06:56:23.663718 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'fifo_check_bridge'
+2025-11-03 06:56:23.664608 0.00% [NOTICE] switch_loadable_module.c:359 Adding Chat Application 'info'
+2025-11-03 06:56:23.664676 0.00% [NOTICE] switch_loadable_module.c:359 Adding Chat Application 'reply'
+2025-11-03 06:56:23.664736 0.00% [NOTICE] switch_loadable_module.c:359 Adding Chat Application 'stop'
+2025-11-03 06:56:23.664844 0.00% [NOTICE] switch_loadable_module.c:359 Adding Chat Application 'final'
+2025-11-03 06:56:23.664890 0.00% [NOTICE] switch_loadable_module.c:359 Adding Chat Application 'set'
+2025-11-03 06:56:23.664973 0.00% [NOTICE] switch_loadable_module.c:359 Adding Chat Application 'unset'
+2025-11-03 06:56:23.665064 0.00% [NOTICE] switch_loadable_module.c:359 Adding Chat Application 'send'
+2025-11-03 06:56:23.665151 0.00% [NOTICE] switch_loadable_module.c:359 Adding Chat Application 'fire'
+2025-11-03 06:56:23.665228 0.00% [NOTICE] switch_loadable_module.c:359 Adding Chat Application 'system'
+2025-11-03 06:56:23.665397 0.00% [NOTICE] switch_loadable_module.c:621 Adding Chat interface 'GLOBAL_SMS'
+2025-11-03 06:56:23.666176 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'play_fsv'
+2025-11-03 06:56:23.666288 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'record_fsv'
+2025-11-03 06:56:23.666372 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'play_yuv'
+2025-11-03 06:56:23.666477 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'decode_video'
+2025-11-03 06:56:23.666666 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'fsv'
+2025-11-03 06:56:23.667442 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'esf_page_group'
+2025-11-03 06:56:23.668192 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'expr'
+2025-11-03 06:56:23.670040 0.00% [NOTICE] switch_loadable_module.c:172 Adding Endpoint 'error'
+2025-11-03 06:56:23.670095 0.00% [NOTICE] switch_loadable_module.c:172 Adding Endpoint 'group'
+2025-11-03 06:56:23.670117 0.00% [NOTICE] switch_loadable_module.c:172 Adding Endpoint 'user'
+2025-11-03 06:56:23.670279 0.00% [NOTICE] switch_loadable_module.c:172 Adding Endpoint 'pickup'
+2025-11-03 06:56:23.670530 0.00% [NOTICE] switch_loadable_module.c:273 Adding Dialplan 'inline'
+2025-11-03 06:56:23.670591 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'blind_transfer_ack'
+2025-11-03 06:56:23.670811 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'bind_digit_action'
+2025-11-03 06:56:23.670897 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'capture'
+2025-11-03 06:56:23.670967 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'clear_digit_action'
+2025-11-03 06:56:23.671138 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'digit_action_set_realm'
+2025-11-03 06:56:23.671316 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'privacy'
+2025-11-03 06:56:23.671368 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'set_audio_level'
+2025-11-03 06:56:23.671525 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'set_mute'
+2025-11-03 06:56:23.671835 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'flush_dtmf'
+2025-11-03 06:56:23.671997 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'hold'
+2025-11-03 06:56:23.672117 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'unhold'
+2025-11-03 06:56:23.672247 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'mutex'
+2025-11-03 06:56:23.672315 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'page'
+2025-11-03 06:56:23.672342 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'transfer'
+2025-11-03 06:56:23.672407 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'check_acl'
+2025-11-03 06:56:23.672436 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'verbose_events'
+2025-11-03 06:56:23.672641 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'novideo'
+2025-11-03 06:56:23.672733 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'cng_plc'
+2025-11-03 06:56:23.672815 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'early_hangup'
+2025-11-03 06:56:23.672848 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'sleep'
+2025-11-03 06:56:23.673096 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'delay_echo'
+2025-11-03 06:56:23.673188 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'strftime'
+2025-11-03 06:56:23.673268 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'phrase'
+2025-11-03 06:56:23.673290 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'eval'
+2025-11-03 06:56:23.673307 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'set_media_stats'
+2025-11-03 06:56:23.673802 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'stop'
+2025-11-03 06:56:23.673903 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'set_zombie_exec'
+2025-11-03 06:56:23.673990 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'pre_answer'
+2025-11-03 06:56:23.674045 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'answer'
+2025-11-03 06:56:23.674134 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'wait_for_answer'
+2025-11-03 06:56:23.674199 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'wait_for_video_ready'
+2025-11-03 06:56:23.674317 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'hangup'
+2025-11-03 06:56:23.674458 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'set_name'
+2025-11-03 06:56:23.674507 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'presence'
+2025-11-03 06:56:23.674581 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'log'
+2025-11-03 06:56:23.674613 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'info'
+2025-11-03 06:56:23.674820 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'event'
+2025-11-03 06:56:23.674851 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'sound_test'
+2025-11-03 06:56:23.674901 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'export'
+2025-11-03 06:56:23.674978 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'bridge_export'
+2025-11-03 06:56:23.675058 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'set'
+2025-11-03 06:56:23.675144 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'multiset'
+2025-11-03 06:56:23.675227 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'push'
+2025-11-03 06:56:23.675253 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'unshift'
+2025-11-03 06:56:23.675338 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'set_global'
+2025-11-03 06:56:23.675425 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'set_profile_var'
+2025-11-03 06:56:23.675492 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'unset'
+2025-11-03 06:56:23.675522 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'multiunset'
+2025-11-03 06:56:23.675537 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'capture_text'
+2025-11-03 06:56:23.675767 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'acknowledge_call'
+2025-11-03 06:56:23.675864 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'ring_ready'
+2025-11-03 06:56:23.675955 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'remove_bugs'
+2025-11-03 06:56:23.676084 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'break'
+2025-11-03 06:56:23.676125 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'detect_speech'
+2025-11-03 06:56:23.676208 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'play_and_detect_speech'
+2025-11-03 06:56:23.676268 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'ivr'
+2025-11-03 06:56:23.676344 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'redirect'
+2025-11-03 06:56:23.676416 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'video_refresh'
+2025-11-03 06:56:23.676458 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'video_decode'
+2025-11-03 06:56:23.676558 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'send_info'
+2025-11-03 06:56:23.676648 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'jitterbuffer'
+2025-11-03 06:56:23.676729 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'send_display'
+2025-11-03 06:56:23.676806 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'respond'
+2025-11-03 06:56:23.676858 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'deflect'
+2025-11-03 06:56:23.676934 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'recovery_refresh'
+2025-11-03 06:56:23.677096 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'reuse_caller_profile'
+2025-11-03 06:56:23.677160 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'queue_dtmf'
+2025-11-03 06:56:23.677212 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'send_dtmf'
+2025-11-03 06:56:23.677277 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'sched_cancel'
+2025-11-03 06:56:23.677326 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'sched_hangup'
+2025-11-03 06:56:23.677514 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'sched_broadcast'
+2025-11-03 06:56:23.677608 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'sched_transfer'
+2025-11-03 06:56:23.677665 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'execute_extension'
+2025-11-03 06:56:23.677749 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'sched_heartbeat'
+2025-11-03 06:56:23.677775 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'enable_heartbeat'
+2025-11-03 06:56:23.677850 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'filter_codecs'
+2025-11-03 06:56:23.677978 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'enable_keepalive'
+2025-11-03 06:56:23.678017 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'media_reset'
+2025-11-03 06:56:23.678041 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'mkdir'
+2025-11-03 06:56:23.678170 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'rename'
+2025-11-03 06:56:23.678245 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'transfer_vars'
+2025-11-03 06:56:23.678333 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'soft_hold'
+2025-11-03 06:56:23.678418 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'bind_meta_app'
+2025-11-03 06:56:23.678459 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'unbind_meta_app'
+2025-11-03 06:56:23.678606 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'block_dtmf'
+2025-11-03 06:56:23.678660 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'unblock_dtmf'
+2025-11-03 06:56:23.678732 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'intercept'
+2025-11-03 06:56:23.678861 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'eavesdrop'
+2025-11-03 06:56:23.678903 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'native_eavesdrop'
+2025-11-03 06:56:23.678981 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'three_way'
+2025-11-03 06:56:23.679022 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'set_user'
+2025-11-03 06:56:23.679071 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'stop_dtmf'
+2025-11-03 06:56:23.679181 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'start_dtmf'
+2025-11-03 06:56:23.679236 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'stop_dtmf_generate'
+2025-11-03 06:56:23.679313 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'start_dtmf_generate'
+2025-11-03 06:56:23.679391 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'stop_tone_detect'
+2025-11-03 06:56:23.679464 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'fax_detect'
+2025-11-03 06:56:23.679482 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'tone_detect'
+2025-11-03 06:56:23.679624 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'echo'
+2025-11-03 06:56:23.679691 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'park'
+2025-11-03 06:56:23.679736 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'park_state'
+2025-11-03 06:56:23.679803 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'gentones'
+2025-11-03 06:56:23.679871 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'playback'
+2025-11-03 06:56:23.679912 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'broadcast'
+2025-11-03 06:56:23.680003 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'endless_playback'
+2025-11-03 06:56:23.680031 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'loop_playback'
+2025-11-03 06:56:23.680106 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'att_xfer'
+2025-11-03 06:56:23.680176 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'read'
+2025-11-03 06:56:23.680246 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'play_and_get_digits'
+2025-11-03 06:56:23.680319 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'stop_video_write_overlay'
+2025-11-03 06:56:23.680408 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'video_write_overlay'
+2025-11-03 06:56:23.680477 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'stop_record_session'
+2025-11-03 06:56:23.680552 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'record_session'
+2025-11-03 06:56:23.680604 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'record_session_mask'
+2025-11-03 06:56:23.680683 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'record_session_unmask'
+2025-11-03 06:56:23.680740 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'record_session_pause'
+2025-11-03 06:56:23.680894 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'record_session_resume'
+2025-11-03 06:56:23.680962 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'record'
+2025-11-03 06:56:23.681023 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'preprocess'
+2025-11-03 06:56:23.681092 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'stop_displace_session'
+2025-11-03 06:56:23.681139 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'displace_session'
+2025-11-03 06:56:23.681236 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'speak'
+2025-11-03 06:56:23.681275 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'clear_speech_cache'
+2025-11-03 06:56:23.681333 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'bridge'
+2025-11-03 06:56:23.681371 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'say'
+2025-11-03 06:56:23.681415 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'detect_audio'
+2025-11-03 06:56:23.681582 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'detect_silence'
+2025-11-03 06:56:23.681673 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'wait_for_silence'
+2025-11-03 06:56:23.681727 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'session_loglevel'
+2025-11-03 06:56:23.681931 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'limit'
+2025-11-03 06:56:23.681989 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'limit_hash'
+2025-11-03 06:56:23.682060 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'limit_execute'
+2025-11-03 06:56:23.682091 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'limit_hash_execute'
+2025-11-03 06:56:23.682127 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'pickup'
+2025-11-03 06:56:23.682211 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'deduplicate_dtmf'
+2025-11-03 06:56:23.682288 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'vad_test'
+2025-11-03 06:56:23.682369 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'debug_media'
+2025-11-03 06:56:23.682444 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'strepoch'
+2025-11-03 06:56:23.682515 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'page'
+2025-11-03 06:56:23.682574 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'strmicroepoch'
+2025-11-03 06:56:23.682640 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'chat'
+2025-11-03 06:56:23.682705 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'strftime'
+2025-11-03 06:56:23.682775 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'presence'
+2025-11-03 06:56:23.682846 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'file_string'
+2025-11-03 06:56:23.682911 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'file'
+2025-11-03 06:56:23.682955 0.00% [NOTICE] switch_loadable_module.c:621 Adding Chat interface 'event'
+2025-11-03 06:56:23.683021 0.00% [NOTICE] switch_loadable_module.c:621 Adding Chat interface 'api'
+2025-11-03 06:56:23.683283 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_enum.so
+**/usr/lib/freeswitch/mod/mod_enum.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.683815 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'valet_park'
+2025-11-03 06:56:23.683870 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'valet_info'
+2025-11-03 06:56:23.683988 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_spandsp.so
+**/usr/lib/freeswitch/mod/mod_spandsp.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.685249 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.685262 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.686248 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.686256 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.687366 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'db'
+2025-11-03 06:56:23.687429 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'group'
+2025-11-03 06:56:23.687509 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'db'
+2025-11-03 06:56:23.687586 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'group'
+2025-11-03 06:56:23.687664 0.00% [NOTICE] switch_loadable_module.c:717 Adding Limit interface 'db'
+2025-11-03 06:56:23.688333 0.00% [DEBUG] switch_scheduler.c:263 Added task 3 limit_hash_cleanup (mod_hash) to run at 1762153883
+2025-11-03 06:56:23.688946 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.688958 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.689718 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.689726 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.689827 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'hash'
+2025-11-03 06:56:23.689884 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'hash'
+2025-11-03 06:56:23.689937 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'hash_dump'
+2025-11-03 06:56:23.690018 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'hash_remote'
+2025-11-03 06:56:23.690128 0.00% [NOTICE] switch_loadable_module.c:717 Adding Limit interface 'hash'
+2025-11-03 06:56:23.691810 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.691817 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.692658 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.692666 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.692770 0.00% [ERR] mod_conference.c:3950 Open of conference.conf failed
+2025-11-03 06:56:23.692795 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'conference'
+2025-11-03 06:56:23.692842 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'conference_set_auto_outcall'
+2025-11-03 06:56:23.692876 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'conference'
+2025-11-03 06:56:23.692908 0.00% [NOTICE] switch_loadable_module.c:621 Adding Chat interface 'conf'
+2025-11-03 06:56:23.693556 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G729 18 G.729 8000hz 10ms 1ch 8000bps
+2025-11-03 06:56:23.693561 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G729 18 G.729 8000hz 20ms 1ch 8000bps
+2025-11-03 06:56:23.693563 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G729 18 G.729 8000hz 30ms 1ch 8000bps
+2025-11-03 06:56:23.693565 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G729 18 G.729 8000hz 40ms 1ch 8000bps
+2025-11-03 06:56:23.693567 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G729 18 G.729 8000hz 50ms 1ch 8000bps
+2025-11-03 06:56:23.693569 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G729 18 G.729 8000hz 60ms 1ch 8000bps
+2025-11-03 06:56:23.693571 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G729 18 G.729 8000hz 70ms 1ch 8000bps
+2025-11-03 06:56:23.693573 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G729 18 G.729 8000hz 80ms 1ch 8000bps
+2025-11-03 06:56:23.693575 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G729 18 G.729 8000hz 90ms 1ch 8000bps
+2025-11-03 06:56:23.693576 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G729 18 G.729 8000hz 100ms 1ch 8000bps
+2025-11-03 06:56:23.693578 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G729 18 G.729 8000hz 110ms 1ch 8000bps
+2025-11-03 06:56:23.693580 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G729 18 G.729 8000hz 120ms 1ch 8000bps
+2025-11-03 06:56:23.694122 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G723 4 G.723.1 6.3k 8000hz 120ms 1ch 6300bps
+2025-11-03 06:56:23.694128 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G723 4 G.723.1 6.3k 8000hz 90ms 1ch 6300bps
+2025-11-03 06:56:23.694133 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G723 4 G.723.1 6.3k 8000hz 60ms 1ch 6300bps
+2025-11-03 06:56:23.694135 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec G723 4 G.723.1 6.3k 8000hz 30ms 1ch 6300bps
+2025-11-03 06:56:23.694280 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_bv.so
+**/usr/lib/freeswitch/mod/mod_bv.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.694853 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec AMR 96 AMR / Octet Aligned 8000hz 20ms 1ch 12200bps
+2025-11-03 06:56:23.694898 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec AMR 97 AMR / Bandwidth Efficient 8000hz 20ms 1ch 12200bps
+2025-11-03 06:56:23.695311 0.00% [NOTICE] switch_loadable_module.c:229 Adding Codec H264 97 H.264 Video (passthru) 90000hz 0ms 1ch (VBR)
+2025-11-03 06:56:23.695354 0.00% [NOTICE] switch_loadable_module.c:229 Adding Codec H263 34 H.263 Video (passthru) 90000hz 0ms 1ch (VBR)
+2025-11-03 06:56:23.695419 0.00% [NOTICE] switch_loadable_module.c:229 Adding Codec H263-1998 115 H.263+ Video (passthru) 90000hz 0ms 1ch (VBR)
+2025-11-03 06:56:23.695476 0.00% [NOTICE] switch_loadable_module.c:229 Adding Codec H263-2000 121 H.263++ Video (passthru) 90000hz 0ms 1ch (VBR)
+2025-11-03 06:56:23.695510 0.00% [NOTICE] switch_loadable_module.c:229 Adding Codec H261 31 H.261 Video (passthru) 90000hz 0ms 1ch (VBR)
+2025-11-03 06:56:23.696040 0.00% [NOTICE] switch_loadable_module.c:273 Adding Dialplan 'XML'
+2025-11-03 06:56:23.696794 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.696801 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.697524 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.697532 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.697637 0.00% [NOTICE] switch_loadable_module.c:172 Adding Endpoint 'loopback'
+2025-11-03 06:56:23.697679 0.00% [NOTICE] switch_loadable_module.c:172 Adding Endpoint 'null'
+2025-11-03 06:56:23.697728 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'unloop'
+2025-11-03 06:56:23.751065 0.00% [NOTICE] switch_loadable_module.c:329 Adding Application 'socket'
+2025-11-03 06:56:23.751155 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'event_sink'
+2025-11-03 06:56:23.755652 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.755727 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.756480 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.756486 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.756616 0.00% [INFO] mod_sndfile.c:498 
+LibSndFile Version : libsndfile-1.2.0 Supported Formats
+================================================================================
+AIFF (Apple/SGI)  (extension "aiff")
+AU (Sun/NeXT)  (extension "au")
+AVR (Audio Visual Research)  (extension "avr")
+CAF (Apple Core Audio File)  (extension "caf")
+FLAC (Free Lossless Audio Codec)  (extension "flac")
+HTK (HMM Tool Kit)  (extension "htk")
+IFF (Amiga IFF/SVX8/SV16)  (extension "iff")
+MAT4 (GNU Octave 2.0 / Matlab 4.2)  (extension "mat")
+MAT5 (GNU Octave 2.1 / Matlab 5.0)  (extension "mat")
+MPC (Akai MPC 2k)  (extension "mpc")
+MPEG-1/2 Audio  (extension "m1a")
+OGG (OGG Container format)  (extension "oga")
+OGG (OGG Container format)  (extension "ogg")
+PAF (Ensoniq PARIS)  (extension "paf")
+PVF (Portable Voice Format)  (extension "pvf")
+RAW (header-less)  (extension "raw")
+RF64 (RIFF 64)  (extension "rf64")
+SD2 (Sound Designer II)  (extension "sd2")
+SDS (Midi Sample Dump Standard)  (extension "sds")
+SF (Berkeley/IRCAM/CARL)  (extension "sf")
+VOC (Creative Labs)  (extension "voc")
+W64 (SoundFoundry WAVE 64)  (extension "w64")
+WAV (Microsoft)  (extension "wav")
+WAV (NIST Sphere)  (extension "wav")
+WAVEX (Microsoft)  (extension "wav")
+WVE (Psion Series 3)  (extension "wve")
+XI (FastTracker 2)  (extension "xi")
+================================================================================
+2025-11-03 06:56:23.756743 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'sndfile_debug'
+2025-11-03 06:56:23.756811 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'aiff'
+2025-11-03 06:56:23.756866 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'au'
+2025-11-03 06:56:23.756899 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'avr'
+2025-11-03 06:56:23.757143 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'caf'
+2025-11-03 06:56:23.757201 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'flac'
+2025-11-03 06:56:23.757248 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'htk'
+2025-11-03 06:56:23.757295 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'iff'
+2025-11-03 06:56:23.757342 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'mat'
+2025-11-03 06:56:23.757360 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'mpc'
+2025-11-03 06:56:23.757368 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'm1a'
+2025-11-03 06:56:23.757375 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'oga'
+2025-11-03 06:56:23.757382 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'paf'
+2025-11-03 06:56:23.757393 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'pvf'
+2025-11-03 06:56:23.757604 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'raw'
+2025-11-03 06:56:23.757628 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'rf64'
+2025-11-03 06:56:23.757641 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'sd2'
+2025-11-03 06:56:23.757649 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'sds'
+2025-11-03 06:56:23.757660 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'sf'
+2025-11-03 06:56:23.757670 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'voc'
+2025-11-03 06:56:23.757679 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'w64'
+2025-11-03 06:56:23.757690 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'wav'
+2025-11-03 06:56:23.757730 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'wve'
+2025-11-03 06:56:23.757830 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'xi'
+2025-11-03 06:56:23.757926 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'r8'
+2025-11-03 06:56:23.757977 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'r16'
+2025-11-03 06:56:23.758014 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'r24'
+2025-11-03 06:56:23.758194 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'r32'
+2025-11-03 06:56:23.758219 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'gsm'
+2025-11-03 06:56:23.758253 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'ul'
+2025-11-03 06:56:23.758311 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'ulaw'
+2025-11-03 06:56:23.758366 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'al'
+2025-11-03 06:56:23.758487 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'alaw'
+2025-11-03 06:56:23.758530 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'adpcm'
+2025-11-03 06:56:23.758563 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'vox'
+2025-11-03 06:56:23.758609 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'oga'
+2025-11-03 06:56:23.758652 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'ogg'
+2025-11-03 06:56:23.759284 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'PCMU'
+2025-11-03 06:56:23.759329 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'L16'
+2025-11-03 06:56:23.759563 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'PCMA'
+2025-11-03 06:56:23.759623 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'G729'
+2025-11-03 06:56:23.759670 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'G723'
+2025-11-03 06:56:23.760199 0.00% [NOTICE] switch_loadable_module.c:651 Adding Say interface 'en'
+2025-11-03 06:56:23.760361 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_say_zh.so
+**/usr/lib/freeswitch/mod/mod_say_zh.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.760409 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_say_ru.so
+**/usr/lib/freeswitch/mod/mod_say_ru.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.760448 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_say_fr.so
+**/usr/lib/freeswitch/mod/mod_say_fr.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.760497 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_say_th.so
+**/usr/lib/freeswitch/mod/mod_say_th.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.760533 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_say_he.so
+**/usr/lib/freeswitch/mod/mod_say_he.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.760588 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_say_pt.so
+**/usr/lib/freeswitch/mod/mod_say_pt.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.760621 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_say_de.so
+**/usr/lib/freeswitch/mod/mod_say_de.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.760714 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_say_it.so
+**/usr/lib/freeswitch/mod/mod_say_it.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.760767 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_say_nl.so
+**/usr/lib/freeswitch/mod/mod_say_nl.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.760801 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_say_es.so
+**/usr/lib/freeswitch/mod/mod_say_es.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.760839 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_say_hu.so
+**/usr/lib/freeswitch/mod/mod_say_hu.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.760886 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_flite.so
+**/usr/lib/freeswitch/mod/mod_flite.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.760927 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_tts_commandline.so
+**/usr/lib/freeswitch/mod/mod_tts_commandline.so: cannot open shared object file: No such file or directory**
+2025-11-03 06:56:23.761680 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.761686 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.762479 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.762487 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.762655 0.00% [ERR] mod_local_stream.c:1337 Open of local_stream.conf failed
+2025-11-03 06:56:23.762789 0.00% [CRIT] switch_loadable_module.c:1754 Error Loading module /usr/lib/freeswitch/mod/mod_local_stream.so
+**Module load routine returned an error**
+2025-11-03 06:56:23.763279 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'tone_stream'
+2025-11-03 06:56:23.763327 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'silence_stream'
+2025-11-03 06:56:23.772553 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.772565 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.773344 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.773350 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.773506 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 48000hz 40ms 2ch 192bps
+2025-11-03 06:56:23.773510 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 48000hz 40ms 1ch 96bps
+2025-11-03 06:56:23.773512 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 44100hz 40ms 2ch 176bps
+2025-11-03 06:56:23.773514 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 44100hz 40ms 1ch 88bps
+2025-11-03 06:56:23.773516 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 32000hz 40ms 2ch 128bps
+2025-11-03 06:56:23.773518 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 32000hz 40ms 1ch 64bps
+2025-11-03 06:56:23.773519 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 22050hz 40ms 2ch 88bps
+2025-11-03 06:56:23.773521 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 22050hz 40ms 1ch 44bps
+2025-11-03 06:56:23.773523 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 16000hz 40ms 2ch 64bps
+2025-11-03 06:56:23.773524 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 16000hz 40ms 1ch 32bps
+2025-11-03 06:56:23.773526 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 11025hz 40ms 2ch 44bps
+2025-11-03 06:56:23.773528 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 11025hz 40ms 1ch 22bps
+2025-11-03 06:56:23.773530 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 8000hz 40ms 2ch 32bps
+2025-11-03 06:56:23.773531 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 8000hz 40ms 1ch 16bps
+2025-11-03 06:56:23.773533 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 48000hz 30ms 2ch 192bps
+2025-11-03 06:56:23.773535 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 48000hz 30ms 1ch 96bps
+2025-11-03 06:56:23.773537 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 44100hz 30ms 2ch 176bps
+2025-11-03 06:56:23.773538 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 44100hz 30ms 1ch 88bps
+2025-11-03 06:56:23.773540 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 32000hz 30ms 2ch 128bps
+2025-11-03 06:56:23.773542 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 32000hz 30ms 1ch 64bps
+2025-11-03 06:56:23.773544 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 22050hz 30ms 2ch 88bps
+2025-11-03 06:56:23.773546 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 22050hz 30ms 1ch 44bps
+2025-11-03 06:56:23.773547 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 16000hz 30ms 2ch 64bps
+2025-11-03 06:56:23.773549 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 16000hz 30ms 1ch 32bps
+2025-11-03 06:56:23.773551 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 11025hz 30ms 2ch 44bps
+2025-11-03 06:56:23.773553 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 11025hz 30ms 1ch 22bps
+2025-11-03 06:56:23.773555 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 8000hz 30ms 2ch 32bps
+2025-11-03 06:56:23.773556 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 8000hz 30ms 1ch 16bps
+2025-11-03 06:56:23.773558 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 48000hz 20ms 2ch 192bps
+2025-11-03 06:56:23.773560 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 48000hz 20ms 1ch 96bps
+2025-11-03 06:56:23.773562 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 44100hz 20ms 2ch 176bps
+2025-11-03 06:56:23.773564 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 44100hz 20ms 1ch 88bps
+2025-11-03 06:56:23.773565 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 32000hz 20ms 2ch 128bps
+2025-11-03 06:56:23.773567 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 32000hz 20ms 1ch 64bps
+2025-11-03 06:56:23.773569 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 22050hz 20ms 2ch 88bps
+2025-11-03 06:56:23.773570 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 22050hz 20ms 1ch 44bps
+2025-11-03 06:56:23.773572 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 16000hz 20ms 2ch 64bps
+2025-11-03 06:56:23.773574 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 16000hz 20ms 1ch 32bps
+2025-11-03 06:56:23.773576 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 11025hz 20ms 2ch 44bps
+2025-11-03 06:56:23.773577 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 11025hz 20ms 1ch 22bps
+2025-11-03 06:56:23.773579 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 8000hz 20ms 2ch 32bps
+2025-11-03 06:56:23.773581 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 8000hz 20ms 1ch 16bps
+2025-11-03 06:56:23.773583 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 48000hz 10ms 2ch 192bps
+2025-11-03 06:56:23.773584 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 48000hz 10ms 1ch 96bps
+2025-11-03 06:56:23.773586 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 44100hz 10ms 2ch 176bps
+2025-11-03 06:56:23.773588 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 44100hz 10ms 1ch 88bps
+2025-11-03 06:56:23.773589 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 32000hz 10ms 2ch 128bps
+2025-11-03 06:56:23.773591 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 32000hz 10ms 1ch 64bps
+2025-11-03 06:56:23.773593 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 22050hz 10ms 2ch 88bps
+2025-11-03 06:56:23.773595 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 22050hz 10ms 1ch 44bps
+2025-11-03 06:56:23.773597 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 16000hz 10ms 2ch 64bps
+2025-11-03 06:56:23.773598 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 16000hz 10ms 1ch 32bps
+2025-11-03 06:56:23.773600 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 11025hz 10ms 2ch 44bps
+2025-11-03 06:56:23.773602 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 11025hz 10ms 1ch 22bps
+2025-11-03 06:56:23.773603 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 8000hz 10ms 2ch 32bps
+2025-11-03 06:56:23.773605 0.00% [NOTICE] switch_loadable_module.c:223 Adding Codec MP3 98 MP3 8000hz 10ms 1ch 16bps
+2025-11-03 06:56:23.773695 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'telecast'
+2025-11-03 06:56:23.773732 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'shout'
+2025-11-03 06:56:23.773796 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'shouts'
+2025-11-03 06:56:23.773849 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'mp3'
+2025-11-03 06:56:23.773903 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'mpga'
+2025-11-03 06:56:23.774982 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.774989 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.775953 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.775961 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.776089 0.00% [NOTICE] mod_xml_cdr.c:102 Rotating log file paths
+2025-11-03 06:56:23.776094 0.00% [NOTICE] mod_xml_cdr.c:129 Setting log file path to /var/log/freeswitch/xml_cdr
+2025-11-03 06:56:23.777539 0.00% [NOTICE] mod_xml_cdr.c:168 Setting err log file path to /var/log/freeswitch/xml_cdr
+2025-11-03 06:56:23.779289 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.779296 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.780054 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.780061 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+av_log callback installed, level= 32
+2025-11-03 06:56:23.847834 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.847851 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.848626 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.848632 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.848752 0.00% [WARNING] avformat.c:3435 open of avformat.conf failed
+2025-11-03 06:56:23.849115 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.849120 0.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.849872 0.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.849879 0.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.850031 0.00% [NOTICE] switch_loadable_module.c:229 Adding Codec H264 99 H264 Video 90000hz 0ms 1ch (VBR)
+2025-11-03 06:56:23.850097 0.00% [NOTICE] switch_loadable_module.c:229 Adding Codec H263 34 H263 Video 90000hz 0ms 1ch (VBR)
+2025-11-03 06:56:23.850267 0.00% [NOTICE] switch_loadable_module.c:229 Adding Codec H263-1998 115 H263+ Video 90000hz 0ms 1ch (VBR)
+2025-11-03 06:56:23.850391 0.00% [NOTICE] switch_loadable_module.c:389 Adding API Function 'av'
+2025-11-03 06:56:23.850452 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'av'
+2025-11-03 06:56:23.850483 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'rtmp'
+2025-11-03 06:56:23.850534 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'rtmps'
+2025-11-03 06:56:23.850672 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'rtsp'
+2025-11-03 06:56:23.850921 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'mp4'
+2025-11-03 06:56:23.850988 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'm4a'
+2025-11-03 06:56:23.851024 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'mov'
+2025-11-03 06:56:23.851068 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'mkv'
+2025-11-03 06:56:23.851097 0.00% [NOTICE] switch_loadable_module.c:455 Adding File Format 'webm'
+2025-11-03 06:56:23.852449 100.00% [INFO] switch_time.c:627 Clock synchronized to system time.
+2025-11-03 06:56:23.852542 100.00% [DEBUG] switch_loadable_module.c:910 Chat Thread Started
+2025-11-03 06:56:23.852712 100.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.852725 100.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.852944 100.00% [DEBUG] switch_loadable_module.c:910 Chat Thread Started
+2025-11-03 06:56:23.853170 100.00% [NOTICE] switch_core.c:1482 Created ip list rfc6598.auto default (deny)
+2025-11-03 06:56:23.853204 100.00% [NOTICE] switch_utils.c:665 Adding 100.64.0.0/10 (allow) [] to list rfc6598.auto
+2025-11-03 06:56:23.853211 100.00% [NOTICE] switch_core.c:1488 Created ip list rfc1918.auto default (deny)
+2025-11-03 06:56:23.853213 100.00% [NOTICE] switch_utils.c:665 Adding 10.0.0.0/8 (allow) [] to list rfc1918.auto
+2025-11-03 06:56:23.853215 100.00% [NOTICE] switch_utils.c:665 Adding 172.16.0.0/12 (allow) [] to list rfc1918.auto
+2025-11-03 06:56:23.853217 100.00% [NOTICE] switch_utils.c:665 Adding 192.168.0.0/16 (allow) [] to list rfc1918.auto
+2025-11-03 06:56:23.853219 100.00% [NOTICE] switch_utils.c:665 Adding fe80::/10 (allow) [] to list rfc1918.auto
+2025-11-03 06:56:23.853222 100.00% [NOTICE] switch_core.c:1497 Created ip list wan.auto default (allow)
+2025-11-03 06:56:23.853224 100.00% [NOTICE] switch_utils.c:665 Adding 0.0.0.0/8 (deny) [] to list wan.auto
+2025-11-03 06:56:23.853225 100.00% [NOTICE] switch_utils.c:665 Adding 10.0.0.0/8 (deny) [] to list wan.auto
+2025-11-03 06:56:23.853228 100.00% [NOTICE] switch_utils.c:665 Adding 172.16.0.0/12 (deny) [] to list wan.auto
+2025-11-03 06:56:23.853230 100.00% [NOTICE] switch_utils.c:665 Adding 192.168.0.0/16 (deny) [] to list wan.auto
+2025-11-03 06:56:23.853231 100.00% [NOTICE] switch_utils.c:665 Adding 169.254.0.0/16 (deny) [] to list wan.auto
+2025-11-03 06:56:23.853233 100.00% [NOTICE] switch_utils.c:665 Adding 100.64.0.0/10 (deny) [] to list wan.auto
+2025-11-03 06:56:23.853330 100.00% [NOTICE] switch_utils.c:665 Adding fe80::/10 (deny) [] to list wan.auto
+2025-11-03 06:56:23.853349 100.00% [NOTICE] switch_core.c:1509 Created ip list wan_v6.auto default (allow)
+2025-11-03 06:56:23.853357 100.00% [NOTICE] switch_utils.c:665 Adding 0.0.0.0/0 (deny) [] to list wan_v6.auto
+2025-11-03 06:56:23.853359 100.00% [NOTICE] switch_utils.c:665 Adding fe80::/10 (deny) [] to list wan_v6.auto
+2025-11-03 06:56:23.853362 100.00% [NOTICE] switch_core.c:1517 Created ip list wan_v4.auto default (allow)
+2025-11-03 06:56:23.853363 100.00% [NOTICE] switch_utils.c:665 Adding 0.0.0.0/8 (deny) [] to list wan_v4.auto
+2025-11-03 06:56:23.853365 100.00% [NOTICE] switch_utils.c:665 Adding 10.0.0.0/8 (deny) [] to list wan_v4.auto
+2025-11-03 06:56:23.853367 100.00% [NOTICE] switch_utils.c:665 Adding 172.16.0.0/12 (deny) [] to list wan_v4.auto
+2025-11-03 06:56:23.853369 100.00% [NOTICE] switch_utils.c:665 Adding 192.168.0.0/16 (deny) [] to list wan_v4.auto
+2025-11-03 06:56:23.853371 100.00% [NOTICE] switch_utils.c:665 Adding 169.254.0.0/16 (deny) [] to list wan_v4.auto
+2025-11-03 06:56:23.853373 100.00% [NOTICE] switch_utils.c:665 Adding 100.64.0.0/10 (deny) [] to list wan_v4.auto
+2025-11-03 06:56:23.853375 100.00% [NOTICE] switch_utils.c:665 Adding ::/0 (deny) [] to list wan_v4.auto
+2025-11-03 06:56:23.853377 100.00% [NOTICE] switch_core.c:1530 Created ip list any_v6.auto default (allow)
+2025-11-03 06:56:23.853379 100.00% [NOTICE] switch_utils.c:665 Adding 0.0.0.0/0 (deny) [] to list any_v6.auto
+2025-11-03 06:56:23.853383 100.00% [NOTICE] switch_core.c:1537 Created ip list any_v4.auto default (allow)
+2025-11-03 06:56:23.853384 100.00% [NOTICE] switch_utils.c:665 Adding ::/0 (deny) [] to list any_v4.auto
+2025-11-03 06:56:23.853387 100.00% [NOTICE] switch_core.c:1544 Created ip list nat.auto default (deny)
+2025-11-03 06:56:23.853392 100.00% [NOTICE] switch_core.c:1546 Adding 172.23.0.6/255.255.0.0 (deny) to list nat.auto
+2025-11-03 06:56:23.853396 100.00% [NOTICE] switch_utils.c:665 Adding 10.0.0.0/8 (allow) [] to list nat.auto
+2025-11-03 06:56:23.853398 100.00% [NOTICE] switch_utils.c:665 Adding 172.16.0.0/12 (allow) [] to list nat.auto
+2025-11-03 06:56:23.853401 100.00% [NOTICE] switch_utils.c:665 Adding 192.168.0.0/16 (allow) [] to list nat.auto
+2025-11-03 06:56:23.853404 100.00% [NOTICE] switch_utils.c:665 Adding 100.64.0.0/10 (allow) [] to list nat.auto
+2025-11-03 06:56:23.853407 100.00% [NOTICE] switch_core.c:1556 Created ip list loopback.auto default (deny)
+2025-11-03 06:56:23.853410 100.00% [NOTICE] switch_utils.c:665 Adding 127.0.0.0/8 (allow) [] to list loopback.auto
+2025-11-03 06:56:23.853412 100.00% [NOTICE] switch_utils.c:665 Adding ::1/128 (allow) [] to list loopback.auto
+2025-11-03 06:56:23.853414 100.00% [NOTICE] switch_core.c:1563 Created ip list localnet.auto default (deny)
+2025-11-03 06:56:23.853416 100.00% [NOTICE] switch_core.c:1566 Adding 172.23.0.6/255.255.0.0 (allow) to list localnet.auto
+2025-11-03 06:56:23.853775 100.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.853799 100.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.853881 100.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.853889 100.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.854284 100.00% [DEBUG] mod_event_socket.c:2982 Socket up listening on 127.0.0.1:8021
+2025-11-03 06:56:23.854904 100.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.854930 100.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.855382 100.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.855387 100.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.856110 100.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.856118 100.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.856208 100.00% [WARNING] switch_core.c:2286 Implicitly setting events-use-dispatch based on usage of this initial-event-threads parameter.
+2025-11-03 06:56:23.856323 100.00% [INFO] switch_core.c:2503 
+FreeSWITCH Version 1.10.12-release+git~20250113T174143Z~d8481a949d~64bit (git d8481a9 2025-01-13 17:41:43Z 64bit)
+
+FreeSWITCH Started
+Max Sessions [1000]
+Session Rate [30]
+SQL [Enabled]
+2025-11-03 06:56:23.857296 100.00% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 06:56:23.857303 100.00% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 06:56:23.858217 100.00% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 06:56:23.858226 100.00% [ERR] mod_lua.cpp:269 LUA script parse/execute error!
+2025-11-03 06:56:23.864988 100.00% [WARNING] switch_console.c:1056 We've become an orphan, no more console for us.
+2025-11-03 06:56:23.865074 100.00% [DEBUG] switch_console.c:1088 Editline thread exiting
+2025-11-03 06:56:53.352333 98.40% [WARNING] switch_core_db.c:92 SQLite is BUSY, sane=299 [update sip_subscriptions set version=version+1 where ((expires > 0 and expires <= 1762153013)) and profile_name='external' and hostname='8900a222ebc9']
+2025-11-03 06:56:53.552344 98.40% [WARNING] switch_core_db.c:92 SQLite is BUSY, sane=299 [BEGIN EXCLUSIVE]
+2025-11-03 07:01:11.352354 98.63% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 07:01:11.352354 98.63% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 07:01:11.352354 98.63% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
+2025-11-03 07:01:24.572334 98.70% [INFO] switch_cpp.cpp:1466 [lua-shim] scripts_dir=/var/www/fusionpbx/app/switch/resources/scripts
+2025-11-03 07:01:24.572334 98.70% [INFO] switch_cpp.cpp:1466 [lua-shim] document_root=/var/www/fusionpbx
+2025-11-03 07:01:24.572334 98.70% [ERR] mod_lua.cpp:202 .../switch/resources/scripts/resources/functions/config.lua:13: attempt to concatenate a nil value
+stack traceback:
+	.../switch/resources/scripts/resources/functions/config.lua:13: in function 'config'
+	.../switch/resources/scripts/resources/functions/config.lua:24: in function 'load_config'
+	.../switch/resources/scripts/resources/functions/config.lua:209: in main chunk
+	[C]: in function 'require'
+	/var/www/fusionpbx/app/switch/resources/scripts/app.lua:28: in main chunk
+	[C]: in function 'dofile'
+	/usr/share/freeswitch/scripts/app.lua:21: in main chunk
