@@ -96,7 +96,12 @@ services:
     networks:
       - fusionpbx_internal
     healthcheck:
-      test: ["CMD-SHELL", "test -f /var/www/fusionpbx/index.php"]
+      test:
+        [
+          "CMD-SHELL",
+          "test -f /var/www/fusionpbx/index.php",
+          "test -f /var/www/fusionpbx/app/scripts/resources/scripts/app.lua",
+        ]
       interval: 20s
       timeout: 5s
       retries: 10
@@ -126,17 +131,26 @@ services:
       FS_FOREGROUND: ${FS_FOREGROUND:-1}
       FS_DEBUG: ${FS_DEBUG:-1}
       FS_CONF_SOURCE: ${FS_CONF_SOURCE:-/opt/freeswitch/defaults}
+
+      # run the XML patcher you mounted
+      SKIP_CONFIG_SH: "0" # <<< DO NOT SKIP
+      # point Lua at the real FusionPBX folder
+      SCRIPTS_DIR: /var/www/fusionpbx/app/switch
+
+      # Event socket sane defaults (loopback allowed; not world-open)
+      ESL_LISTEN_IP: 127.0.0.1
+      ESL_LISTEN_PORT: "8021"
+      ESL_PASSWORD: "ClueCon"
+      ESL_APPLY_ACL: loopback.auto,localnet.auto
+
       DOMAIN: pbx.local
-      EXTERNAL_SIP_IP: auto-nat # or your static IP
+      EXTERNAL_SIP_IP: auto-nat
       EXTERNAL_RTP_IP: auto-nat
       INTERNAL_SIP_PORT: "5060"
       EXTERNAL_SIP_PORT: "5080"
       RTP_START: "30000"
       RTP_END: "30100"
-      INBOUND_ACL: domains # or localnet.auto
-      ESL_PASSWORD: "ClueCon"
-      # Optional: mount a folder with your conf to seed on first run
-      # FS_DEFAULTS_DIR: /opt/freeswitch/defaults
+      INBOUND_ACL: domains
     ulimits:
       nofile: { soft: 200000, hard: 200000 }
       memlock: { soft: -1, hard: -1 }
@@ -149,7 +163,7 @@ services:
       - "5060:5060/tcp"
       - "5080:5080/udp"
       - "5080:5080/tcp"
-      - "8021:8021/tcp"
+      # - "8021:8021/tcp"
       - "30000-30100:30000-30100/udp" # <<< small RTP window
     volumes:
       - ./freeswitch/conf:/etc/freeswitch
@@ -160,8 +174,10 @@ services:
 
     command: ["/usr/bin/freeswitch", "-nf"]
     depends_on:
-      - pbx_nginx
-      - pbx_fusionpbx
+      pbx_nginx:
+        condition: service_started
+      pbx_fusionpbx:
+        condition: service_healthy
     networks:
       - fusionpbx_internal
 
