@@ -92,6 +92,7 @@ services:
       - fusionpbx_:/var/www/fusionpbx
       # Feed only config.sh, like you insisted
       - ./fusionpbx/config.sh:/docker/config.sh:ro
+      - ./freeswitch/conf:/etc/freeswitch
     networks:
       - fusionpbx_internal
     healthcheck:
@@ -113,7 +114,7 @@ services:
   pbx_freeswitch:
     container_name: pbx_freeswitch
     build: ./freeswitch
-    restart: no
+    restart: always
     environment:
       TZ: ${TZ:-UTC}
       FS_BIN: ${FS_BIN:-/usr/bin/freeswitch}
@@ -133,7 +134,7 @@ services:
       RTP_START: "30000"
       RTP_END: "30100"
       INBOUND_ACL: domains # or localnet.auto
-      ESL_PASSWORD: "12345678"
+      ESL_PASSWORD: "ClueCon"
       # Optional: mount a folder with your conf to seed on first run
       # FS_DEFAULTS_DIR: /opt/freeswitch/defaults
     ulimits:
@@ -151,7 +152,7 @@ services:
       - "8021:8021/tcp"
       - "30000-30100:30000-30100/udp" # <<< small RTP window
     volumes:
-      - ./freeswitch/defaults:/etc/freeswitch # named volume, empty on first run
+      - ./freeswitch/conf:/etc/freeswitch
       - fs_var:/var/lib/freeswitch
       - ./freeswitch/log:/var/log/freeswitch
       - ./freeswitch/config.sh:/docker/config.sh:ro
@@ -160,40 +161,42 @@ services:
     command: ["/usr/bin/freeswitch", "-nf"]
     depends_on:
       - pbx_nginx
+      - pbx_fusionpbx
     networks:
       - fusionpbx_internal
-  pbx_fail2ban:
-    container_name: pbx_fail2ban
-    build:
-      context: ./fail2ban
-    # Share the network namespace with nginx so bans hit the ingress
-    network_mode: "service:pbx_nginx"
-    depends_on:
-      - pbx_nginx
-      - pbx_freeswitch
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
-    restart: always
-    # Read logs from FS and nginx; persist fail2ban state if you care
-    volumes:
-      - fs_logs:/var/log/freeswitch:ro
-      - nginx_logs:/var/log/nginx:ro
-      - fail2ban_data:/var/lib/fail2ban
-      - fusionpbx_:/var/www:ro
-      # uncomment if you want to live-edit jails on the host:
-      - ./fail2ban/jail.local:/etc/fail2ban/jail.local:ro
-    # Optional tweaks at runtime
-    environment:
-      TZ: ${TZ:-UTC}
-      DISABLE_RSYSLOG: "1"
-      DISABLE_SSHD: "1"
-    # Healthcheck so you know when it’s not just pretending
-    healthcheck:
-      test: ["CMD-SHELL", "fail2ban-client ping >/dev/null 2>&1"]
-      interval: 30s
-      timeout: 5s
-      retries: 10
+
+  # pbx_fail2ban:
+  #   container_name: pbx_fail2ban
+  #   build:
+  #     context: ./fail2ban
+  #   # Share the network namespace with nginx so bans hit the ingress
+  #   network_mode: "service:pbx_nginx"
+  #   depends_on:
+  #     - pbx_nginx
+  #     - pbx_freeswitch
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - NET_RAW
+  #   restart: always
+  #   # Read logs from FS and nginx; persist fail2ban state if you care
+  #   volumes:
+  #     - fs_logs:/var/log/freeswitch:ro
+  #     - nginx_logs:/var/log/nginx:ro
+  #     - fail2ban_data:/var/lib/fail2ban
+  #     - fusionpbx_:/var/www:ro
+  #     # uncomment if you want to live-edit jails on the host:
+  #     - ./fail2ban/jail.local:/etc/fail2ban/jail.local:ro
+  #   # Optional tweaks at runtime
+  #   environment:
+  #     TZ: ${TZ:-UTC}
+  #     DISABLE_RSYSLOG: "1"
+  #     DISABLE_SSHD: "1"
+  #   # Healthcheck so you know when it’s not just pretending
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "fail2ban-client ping >/dev/null 2>&1"]
+  #     interval: 30s
+  #     timeout: 5s
+  #     retries: 10
 
 volumes:
   fusionpbx_:

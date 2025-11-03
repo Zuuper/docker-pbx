@@ -19,7 +19,6 @@ echo "Password set for admin@$DOMAIN"
 
 docker exec -it pbx_postgres psql -U fusionpbx -d fusion_pbx_db -c \
  "update v_domains set domain_name='INSERT DOMAIN NAME HERE' where domain_uuid='a0045c85-d299-4a59-92a5-6ea186c26e6f';"
-UPDATE 1
 
 # Detect local ip v4
 

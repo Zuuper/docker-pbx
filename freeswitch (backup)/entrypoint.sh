@@ -4,7 +4,7 @@ set -Eeuo pipefail
 log() { printf '[entrypoint] %s\n' "$*"; }
 die() { printf '[entrypoint][error] %s\n' "$*" >&2; exit 1; }
 
-# Binaries and paths (can be overridden via env)
+# Binaries and paths
 FS_BIN="${FS_BIN:-/usr/bin/freeswitch}"
 
 FS_ETC="${FS_ETC:-/etc/freeswitch}"
@@ -15,29 +15,22 @@ FS_RUN="/var/run/freeswitch"
 FS_USER="${FS_USER:-www-data}"
 FS_GROUP="${FS_GROUP:-www-data}"
 
-# Behavior flags
-WAIT_FOR_CONF="${WAIT_FOR_CONF:-0}"     # 1 = wait for conf to appear in FS_ETC
-WAIT_TIMEOUT="${WAIT_TIMEOUT:-120}"     # seconds to wait if WAIT_FOR_CONF=1
-SKIP_CONFIG_SH="${SKIP_CONFIG_SH:-1}"   # 1 = don't run /docker/config.sh
+# Where to seed from. We’ll pick the first that actually exists.
+# 1) explicit FS_CONF_SOURCE
+# 2) packaged samples
+# 3) legacy path you might have used in your Dockerfile
+CANDIDATES=()
+[[ -n "${FS_CONF_SOURCE:-}" ]] && CANDIDATES+=("${FS_CONF_SOURCE}")
+CANDIDATES+=("/usr/share/freeswitch/conf" "/opt/freeswitch/defaults")
 
 command -v "$FS_BIN" >/dev/null || die "freeswitch not found at ${FS_BIN}"
 
-# Ensure base dirs exist
 mkdir -p "$FS_ETC" "$FS_VAR" "$FS_LOG" "$FS_RUN"
 
-# Candidate sources to seed from (first non-empty dir wins)
-CANDIDATES=()
-[[ -n "${FS_CONF_SOURCE:-}" ]] && CANDIDATES+=("${FS_CONF_SOURCE}")
-CANDIDATES+=(
-  "/usr/share/freeswitch/conf"
-  "/opt/freeswitch/defaults"
-  "/var/www/fusionpbx/app/switch/resources/conf"
-)
-
-# Seed config once if FS_ETC is empty
+# Seed config once if empty
 if [[ -z "$(ls -A "$FS_ETC" 2>/dev/null)" ]]; then
   for src in "${CANDIDATES[@]}"; do
-    if [[ -d "$src" && -n "$(ls -A "$src" 2>/dev/null)" ]]; then
+    if [[ -d "$src" ]]; then
       log "Seeding config: ${src} -> ${FS_ETC}"
       if command -v rsync >/dev/null 2>&1; then
         rsync -a "${src}/" "${FS_ETC}/"
@@ -48,16 +41,9 @@ if [[ -z "$(ls -A "$FS_ETC" 2>/dev/null)" ]]; then
     fi
   done
 
-  # If still empty, optionally wait for another container (FusionPBX) to populate the shared mount
-  if [[ -z "$(ls -A "$FS_ETC" 2>/dev/null)" && "$WAIT_FOR_CONF" == "1" ]]; then
-    log "No config yet; waiting up to ${WAIT_TIMEOUT}s for ${FS_ETC} to be populated..."
-    for _ in $(seq 1 "$WAIT_TIMEOUT"); do
-      [[ -n "$(ls -A "$FS_ETC" 2>/dev/null)" ]] && break
-      sleep 1
-    done
+  if [[ -z "$(ls -A "$FS_ETC" 2>/dev/null)" ]]; then
+    die "No FreeSWITCH config found to seed and ${FS_ETC} is empty. Mount a conf or bake one into the image."
   fi
-
-  [[ -z "$(ls -A "$FS_ETC" 2>/dev/null)" ]] && die "No FreeSWITCH config found and ${FS_ETC} is empty. Mount a conf or let FusionPBX write it."
 fi
 
 # Ownership and permissions FreeSWITCH expects
@@ -79,30 +65,32 @@ _term() {
 }
 trap _term TERM INT
 
-# Optional diagnostics
+# Optional noisy diagnostics
 if [[ "${FS_DEBUG:-0}" == "1" ]]; then
-  log "DEBUG on. Paths and a few files:"
+  log "DEBUG on. Paths and ownership:"
   ls -ld "$FS_ETC" "$FS_VAR" "$FS_LOG" "$FS_RUN" || true
   find "$FS_ETC" -maxdepth 1 -type f -name '*.xml' -print | head -n 20 || true
 fi
 
-# Ensure log dir exists with sane ownership
-mkdir -p "$FS_LOG"
-chown -R "$FS_USER:$FS_GROUP" "$FS_LOG"
-chmod 755 "$FS_LOG"
+LOG_DIR="/var/log/freeswitch"
 
-# Optional local templater. Default is OFF so FusionPBX owns config.
-if [[ "$SKIP_CONFIG_SH" != "1" && -x /docker/config.sh ]]; then
-  log "Running /docker/config.sh to patch XML"
-  /docker/config.sh true || log "config.sh returned non-zero; continuing"
-else
-  log "Skipping /docker/config.sh (SKIP_CONFIG_SH=${SKIP_CONFIG_SH})"
+# make sure log dir exists with sane ownership
+if [ ! -d "$LOG_DIR" ]; then
+  echo "Creating $LOG_DIR..."
+  mkdir -p "$LOG_DIR"
 fi
+
+chown -R www-data:www-data "$LOG_DIR"
+chmod 755 "$LOG_DIR"
 
 # Start FreeSWITCH
 log "Starting FreeSWITCH"
+/docker/config.sh true
+
 if [[ "${FS_FOREGROUND:-0}" == "1" ]]; then
+  # Foreground, no daemon, for debugging
   exec su -s /bin/bash -c "\"$FS_BIN\" -u \"$FS_USER\" -g \"$FS_GROUP\" -nf -nonat" "$FS_USER"
 else
+  # Normal: wait for ready, then background
   exec "$FS_BIN" -u "$FS_USER" -g "$FS_GROUP" -ncwait -nonat
 fi
