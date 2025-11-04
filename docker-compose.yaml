@@ -143,7 +143,7 @@ services:
       ESL_PASSWORD: "ClueCon"
       ESL_APPLY_ACL: loopback.auto,localnet.auto
 
-      DOMAIN: pbx.local
+      DOMAIN: 192.168.1.11
       EXTERNAL_SIP_IP: auto-nat
       EXTERNAL_RTP_IP: auto-nat
       INTERNAL_SIP_PORT: "5060"

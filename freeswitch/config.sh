@@ -235,9 +235,9 @@ fi
 # ===================== lua.conf.xml script-directory =====================
 if [[ -f "$LUA_XML" ]]; then
   if grep -q 'script-directory' "$LUA_XML"; then
-    sed -i "s#name=\"script-directory\" value=\"[^\"]*\"#name=\"script-directory\" value=\"${FINAL_SCRIPTS}\"#g" "$LUA_XML"
+    sed -i 's#name="script-directory" value="[^"]*"#name="script-directory" value="/usr/share/freeswitch/scripts"#' "$LUA_XML"
   else
-    sed -i "/<\/settings>/i \    <param name=\"script-directory\" value=\"${FINAL_SCRIPTS}\"/>" "$LUA_XML"
+    sed -i '/<\/settings>/i \    <param name="script-directory" value="/usr/share/freeswitch/scripts"/>' "$LUA_XML"
   fi
 fi
 
@@ -245,7 +245,7 @@ fi
 if [[ -f "${FINAL_SCRIPTS}/app.lua" ]]; then
   mkdir -p /usr/share/freeswitch/scripts
   cat > /usr/share/freeswitch/scripts/app.lua <<EOF
-local base = "/var/www/fusionpbx/app/switch/resources/scripts"
+local base = "${FINAL_SCRIPTS}"
 
 -- Seed globals FusionPBX expects (guards against nil concatenation)
 scripts_dir   = base

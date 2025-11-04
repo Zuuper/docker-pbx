@@ -73,6 +73,7 @@
 
    where fs.mydomain.com is a DNS A record-useful when fs is on a dynamic IP address, and uses a dynamic DNS updater. If unspecified, the bind_server_ip value is used. Used by: sofia.conf.xml dingaling.conf.xml -->
 
+
    <!-- Music on Hold -->
 
    <!-- Ringtones -->
@@ -962,8 +963,8 @@ LIMIT 1
   </settings>
   <fifos>
     <!--
-    <fifo name="cool_fifo@" importance="0">
-      <member timeout="60" simo="1" lag="20">{member_wait=nowait}user/1005@</member>
+    <fifo name="cool_fifo@192.168.1.11" importance="0">
+      <member timeout="60" simo="1" lag="20">{member_wait=nowait}user/1005@192.168.1.11</member>
     </fifo>
     -->
   </fifos>
@@ -1727,7 +1728,7 @@ with the signaling protocols that you can run on top of your I/O interfaces.
 
     <!-- The following are the definitions for the digits the user dials -->
     <!-- Digit 1 transfer caller to the public FreeSWITCH conference -->
-    <entry action="menu-exec-app" digits="1" param="bridge sofia//888@conference.freeswitch.org"/>
+    <entry action="menu-exec-app" digits="1" param="bridge sofia/192.168.1.11/888@conference.freeswitch.org"/>
     <entry action="menu-exec-app" digits="2" param="transfer 9196 XML default"/>    <!-- FS echo -->
     <entry action="menu-exec-app" digits="3" param="transfer 9664 XML default"/>    <!-- MOH -->
     <entry action="menu-exec-app" digits="4" param="transfer 9191 XML default"/>    <!-- ClueCon -->
@@ -1968,8 +1969,8 @@ SELECT l.digits AS lcr_digits,
     Specify local directories that will be searched for LUA scripts
     These entries will be pre-pended to the LUA_PATH environment variable
     -->
-    <!-- <param name="script-directory" value="/var/www/fusionpbx/app/switch/resources/scripts"/> -->
-    <param name="script-directory" value="/var/www/fusionpbx/app/switch/resources/scripts"/>
+    <!-- <param name="script-directory" value="/usr/share/freeswitch/scripts"/> -->
+    <param name="script-directory" value="/usr/share/freeswitch/scripts"/>
 
     <!--
     Deliver XML from lua with the XML Handler
@@ -2186,7 +2187,7 @@ SELECT l.digits AS lcr_digits,
   </settings>
   <listeners>
     <listener name="default">
-      <param name="h323-ip" value="172.23.0.6"/>
+      <param name="h323-ip" value="172.23.0.5"/>
       <param name="h323-port" value="1720"/>
     </listener>
   </listeners>
@@ -2547,7 +2548,7 @@ SELECT l.digits AS lcr_digits,
 </configuration>
 <configuration name="presence_map.conf" description="PRESENCE MAP">
   <domains>
-    <domain name="">
+    <domain name="192.168.1.11">
       <exten regex="3\d+" proto="conf"/>
     </domain>
   </domains>
@@ -2648,8 +2649,8 @@ SELECT l.digits AS lcr_digits,
   <profiles>
 <profile name="internal">
   <settings>
-    <param name="domain" value=""/>
-    <param name="ip" value="172.23.0.6"/>
+    <param name="domain" value="192.168.1.11"/>
+    <param name="ip" value="172.23.0.5"/>
     <param name="port" value="2000"/>
     <param name="patterns-dialplan" value="XML"/>
     <param name="patterns-context" value="skinny-patterns"/>
@@ -2766,10 +2767,10 @@ SELECT l.digits AS lcr_digits,
 		-->
 		<!-- Name of the db to use for this profile -->
 		<param name="dbname" value="share_presence" enabled="false"/>
-		<param name="presence-hosts" value="" enabled="false"/>
-		<param name="force-register-domain" value="" enabled="false"/>
+		<param name="presence-hosts" value="192.168.1.11" enabled="false"/>
+		<param name="force-register-domain" value="192.168.1.11" enabled="false"/>
 		<!--all inbound reg will stored in the db using this domain -->
-		<param name="force-register-db-domain" value="" enabled="false"/>
+		<param name="force-register-db-domain" value="192.168.1.11" enabled="false"/>
 		<!-- ************************************************* -->
 
 		<param name="aggressive-nat-detection" value="false" enabled="false"/>
@@ -2857,7 +2858,7 @@ SELECT l.digits AS lcr_digits,
 
 	<domains>
 		<!-- indicator to parse the directory for domains with parse="true" to get gateways-->
-		<!--<domain name="" parse="true"/>-->
+		<!--<domain name="192.168.1.11" parse="true"/>-->
 		<!-- indicator to parse the directory for domains with parse="true" to get gateways and alias every domain to this profile -->
 		<!--<domain name="all" alias="true" parse="true"/>-->
 		<domain name="all" alias="false" parse="false"/>
@@ -2997,7 +2998,7 @@ SELECT l.digits AS lcr_digits,
 		<!-- used to share presence info across sofia profiles -->
 		<!-- Name of the db to use for this profile -->
 		<param name="dbname" value="share_presence" enabled="false"/>
-		<param name="presence-hosts" value=",172.23.0.6"/>
+		<param name="presence-hosts" value="192.168.1.11,172.23.0.5"/>
 		<param name="presence-privacy" value=""/>
 		<!-- ************************************************* -->
 
@@ -3139,11 +3140,11 @@ SELECT l.digits AS lcr_digits,
 		If you need more than ONE domain you'll need to not use these options.
 		-->
 		<!--all inbound reg will look in this domain for the users -->
-		<param name="force-register-domain" value="" enabled="false"/>
+		<param name="force-register-domain" value="192.168.1.11" enabled="false"/>
 		<!--force the domain in subscriptions to this value -->
-		<param name="force-subscription-domain" value="" enabled="false"/>
+		<param name="force-subscription-domain" value="192.168.1.11" enabled="false"/>
 		<!--all inbound reg will stored in the db using this domain -->
-		<param name="force-register-db-domain" value="" enabled="false"/>
+		<param name="force-register-db-domain" value="192.168.1.11" enabled="false"/>
 
 		<!-- for sip over websocket support -->
 		<param name="ws-binding" value=":5066" enabled="false"/>
@@ -4546,7 +4547,7 @@ SELECT l.digits AS lcr_digits,
 			<param name="mcast-port" value="1337"/>
 			<param name="local-network" value="localnet.auto"/>
 			<param name="apply-candidate-acl" value="wan.auto"/>
-			<param name="rtp-ip" value="172.23.0.6"/>
+			<param name="rtp-ip" value="172.23.0.5"/>
 			<!--  <param name="ext-rtp-ip" value=""/> -->
 			<param name="outbound-codec-string" value="opus,vp8"/>
 			<param name="inbound-codec-string" value="opus,vp8"/>
@@ -4907,7 +4908,7 @@ SELECT l.digits AS lcr_digits,
   <bindings>
     <binding name="example">
       <!-- Allow to bind on a particular IP for requests sent -->
-      <!--<param name="bind-local" value="172.23.0.6" />-->
+      <!--<param name="bind-local" value="172.23.0.5" />-->
       <!-- The url to a gateway cgi that can generate xml similar to
 	   what's in this file only on-the-fly (leave it commented if you dont
 	   need it) -->
